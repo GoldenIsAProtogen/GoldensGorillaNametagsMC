@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GoldensGorillaNametags.Utils;
-using HarmonyLib;
 using TMPro;
 using UnityEngine;
 using GFriends = GorillaFriends.Main;
@@ -11,11 +10,11 @@ namespace GoldensGorillaNametags.Core;
 
 public class TagManager : MonoBehaviour
 {
-    public static           TagManager               Instance;
-    private static readonly Vector3                  BaseScale     = Vector3.one * 0.8f;
-    private readonly        Dictionary<VRRig, float> lastTagUpd    = new();
-    private static readonly Vector3                  ImgBasePos    = new(0f, 0.85f, 0f);
     private const           float                    TagUpdateTime = 0.3f;
+    public static           TagManager               Instance;
+    private static readonly Vector3                  BaseScale  = Vector3.one * 0.8f;
+    private static readonly Vector3                  ImgBasePos = new(0f, 0.85f, 0f);
+    private readonly        Dictionary<VRRig, float> lastTagUpd = new();
 
     private readonly Dictionary<VRRig, NametagData> tagMap = new();
 
@@ -96,7 +95,7 @@ public class TagManager : MonoBehaviour
                                Plugin.Instance.TagHeight.Value - .85f, 0f),
                        "top"    => new Vector3(0f, Plugin.Instance.TagHeight.Value * 0.85f, 0f),
                        "bottom" => new Vector3(0f, Plugin.Instance.TagHeight.Value - 1f,    0f),
-                       _        => ImgBasePos,
+                       var _    => ImgBasePos,
                };
     }
 
@@ -137,7 +136,9 @@ public class TagManager : MonoBehaviour
     {
         if (tagTransform == null) return;
 
-        Transform cameraTransform = Plugin.Instance.CineCam != null ? Plugin.Instance.CineCam.transform : Plugin.Instance.MainCam;
+        Transform cameraTransform = Plugin.Instance.CineCam != null
+                                            ? Plugin.Instance.CineCam.transform
+                                            : Plugin.Instance.MainCam;
 
         if (cameraTransform == null) return;
 
@@ -175,57 +176,59 @@ public class TagManager : MonoBehaviour
         UpdOutline(data);
     }
 
-    private string CreateTagTxt(VRRig r)
+    private string CreateTagTxt(VRRig rig)
     {
-        StringBuilder sb = new(128);
+        StringBuilder stringBuilder = new(128);
 
         if (Plugin.Instance.CheckSpecial.Value)
         {
-            string specialTag = TagUtils.Instance.SpecialTag(r);
+            string specialTag = TagUtils.Instance.SpecialTag(rig);
             if (!string.IsNullOrEmpty(specialTag))
-                sb.AppendLine(specialTag);
+                stringBuilder.AppendLine(specialTag);
         }
 
         if (Plugin.Instance.CheckPing.Value)
         {
-            int ping = (int)Traverse.Create(r).Field("ping").GetValue();
-            sb.Append($"<color={TagUtils.Instance.PingClr(ping)}>{ping}</color>\n");
+            int ping = rig.ping();
+            stringBuilder.Append($"<color={TagUtils.Instance.PingClr(ping)}>{ping}</color>\n");
         }
 
         if (Plugin.Instance.CheckFps.Value)
-        {
-            int fps = (int)Traverse.Create(r).Field("fps").GetValue();
-            sb.Append($"<color={TagUtils.Instance.FpsClr(fps)}>{fps}</color>\n");
-        }
+            stringBuilder.Append($"<color={TagUtils.Instance.FpsClr(rig.fps)}>{rig.fps}</color>\n");
 
-        string platformTag  = Plugin.Instance.CheckPlat.Value && !Plugin.Instance.UsePlatIcons.Value ? TagUtils.Instance.PlatTag(r) : "";
-        string cosmeticsTag = Plugin.Instance.CheckCosmetics.Value ? TagUtils.Instance.CosmeticTag(r) : "";
+        string platformTag = Plugin.Instance.CheckPlat.Value && !Plugin.Instance.UsePlatIcons.Value
+                                     ? TagUtils.Instance.PlatTag(rig)
+                                     : "";
 
-        if (Plugin.Instance.CheckPlat.Value && !Plugin.Instance.UsePlatIcons.Value && Plugin.Instance.CheckCosmetics.Value)
+        string cosmeticsTag = Plugin.Instance.CheckCosmetics.Value ? TagUtils.Instance.CosmeticTag(rig) : "";
+
+        if (Plugin.Instance.CheckPlat.Value && !Plugin.Instance.UsePlatIcons.Value &&
+            Plugin.Instance.CheckCosmetics.Value)
         {
             if (!string.IsNullOrEmpty(platformTag) || !string.IsNullOrEmpty(cosmeticsTag))
-                sb.Append($"<color=white>{platformTag}{cosmeticsTag}</color>\n");
+                stringBuilder.Append($"<color=white>{platformTag}{cosmeticsTag}</color>\n");
         }
         else if (Plugin.Instance.CheckCosmetics.Value && !string.IsNullOrEmpty(cosmeticsTag))
         {
-            sb.Append($"<color=white>{cosmeticsTag}</color>\n");
+            stringBuilder.Append($"<color=white>{cosmeticsTag}</color>\n");
         }
-        else if (Plugin.Instance.CheckPlat.Value && !Plugin.Instance.UsePlatIcons.Value && !string.IsNullOrEmpty(platformTag))
+        else if (Plugin.Instance.CheckPlat.Value && !Plugin.Instance.UsePlatIcons.Value &&
+                 !string.IsNullOrEmpty(platformTag))
         {
-            sb.Append($"<color=white>{platformTag}</color>\n");
+            stringBuilder.Append($"<color=white>{platformTag}</color>\n");
         }
 
-        string plrName = r.OwningNetPlayer.NickName;
-        sb.AppendLine(plrName.Length > 12 ? plrName.Substring(0, 12) + "..." : plrName);
+        string plrName = rig.OwningNetPlayer.NickName;
+        stringBuilder.AppendLine(plrName.Length > 12 ? plrName.Substring(0, 12) + "..." : plrName);
 
         if (!Plugin.Instance.CheckMods.Value)
-            return sb.ToString();
+            return stringBuilder.ToString();
 
-        string modTag = TagUtils.Instance.ModTag(r);
+        string modTag = TagUtils.Instance.ModTag(rig);
         if (!string.IsNullOrEmpty(modTag))
-            sb.Append($"<color=white><size=70%>{modTag}</size></color>");
+            stringBuilder.Append($"<color=white><size=70%>{modTag}</size></color>");
 
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 
     private void UpdTxtClr(VRRig r, TextMeshPro txt)
@@ -278,8 +281,10 @@ public class TagManager : MonoBehaviour
 
     private void CreateOutlineClones(NametagData data)
     {
-        float     thickness = Plugin.Instance.OutlineThick.Value;
-        Vector3[] offsets   = Plugin.Instance.OutlineQual.Value ? CreateHighQualOutline(thickness) : CreateOutline(thickness);
+        float thickness = Plugin.Instance.OutlineThick.Value;
+        Vector3[] offsets = Plugin.Instance.OutlineQual.Value
+                                    ? CreateHighQualOutline(thickness)
+                                    : CreateOutline(thickness);
 
         string plainTxt = StripClrTags(data.MainTxt.text);
 
