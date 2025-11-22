@@ -7,7 +7,9 @@ using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using GoldensGorillaNametags.Core;
+using GoldensGorillaNametags.Patches;
 using HarmonyLib;
+using Photon.Pun;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -102,6 +104,11 @@ public class Plugin : BaseUnityPlugin
         componentHolder = new GameObject("GoldensGorillaNametags Component Holder");
         componentHolder.AddComponent<TagUtils>();
         componentHolder.AddComponent<TagManager>();
+
+        PlayerSerializePatch.OnPlayerSerialize += (rig) =>
+                                                  {
+                                                      playerPing[rig] = GetTruePing(rig);
+                                                  };
     }
 
     private void InitCfg()
@@ -133,6 +140,17 @@ public class Plugin : BaseUnityPlugin
 
         Gf = Config.Bind("Miscellaneous", "GFriends", false, "Use GFriends");
     }
+    
+    public readonly Dictionary<VRRig, int> playerPing = new();
+
+    private int GetTruePing(VRRig rig)
+    {
+        double ping     = Math.Abs((rig.velocityHistoryList[0].time - PhotonNetwork.Time) * 1000);
+        int    safePing = (int)Math.Clamp(Math.Round(ping), 0, int.MaxValue);
+
+        return safePing;
+    }
+
 
     private void InitFont()
     {
