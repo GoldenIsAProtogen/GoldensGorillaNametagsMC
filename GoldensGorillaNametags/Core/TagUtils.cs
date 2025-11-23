@@ -11,7 +11,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace GoldensGorillaNametags.Core;
 
-public class TagUtils : MonoBehaviour
+public class  TagUtils : MonoBehaviour
 {
     public static TagUtils Instance;
 
@@ -126,7 +126,7 @@ public class TagUtils : MonoBehaviour
             if (ping >= threshold.Key)
                 return threshold.Value;
 
-        return "#800080";
+        return "#AB0080";
     }
 
     public string SpecialTag(VRRig r)
@@ -219,7 +219,7 @@ public class TagUtils : MonoBehaviour
             if (!modsCache.TryGetValue(key, out string tag))
                 continue;
 
-            if (tag.Contains("{0}") && !SpoofCheck(entry.Value))
+            if (tag.Contains("{0}") && SpoofCheck(entry.Value))
                 continue;
 
             tag = SpecialModTag(key, tag, entry.Value);
@@ -257,16 +257,8 @@ public class TagUtils : MonoBehaviour
 
             default:
                 /// Under Contruction
-                /*if (key.ToLower() == "gphys")
-        {
-            string valStr = key.ToLower().Replace("")
-        }
-        if (key.ToLower().Contains("gorilla track"))
-        {
-            string valStr = key.ToLower().Replace("gorilla track ", "");
-            if (!string.IsNullOrEmpty(valStr)) return $"[<color=#00A0FF>GT</color> v{valStr}]";
-        }
-        // Needs to be fine tuned (figure out a better length of the generation)
+                /*
+        // Needs to be fine-tuned (figure out a better length of the generation)
         if (Regex.IsMatch(key, @"^[a-zA-Z0-9]+$") && key.Length >= 25 && key.Length <= 45)
         {
             return "[<color=#00A0FF>HAMBURBUR</color>]";
@@ -358,18 +350,15 @@ public class TagUtils : MonoBehaviour
         }
     }
 
+    //probably gonna break easily ;-;
     private bool SpoofCheck(object value)
     {
-        if (value == null) return false;
-
-        string s = value.ToString().Trim().ToLowerInvariant();
-
-        if (!s.StartsWith("v"))
+        if (value == null)
             return false;
 
-        string ver = s.Substring(1);
+        string s = value.ToString();
 
-        return char.IsDigit(ver.FirstOrDefault()) && Regex.IsMatch(ver, @"^\d+(\.\d+){0,2}$");
+        return s.Contains("true", StringComparison.OrdinalIgnoreCase);
     }
 
     private IEnumerator ImageCoroutine(string url, Action<Texture2D> onComplete)

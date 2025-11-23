@@ -187,14 +187,31 @@ public class TagManager : MonoBehaviour
                 stringBuilder.AppendLine(specialTag);
         }
 
-        if (Plugin.Instance.CheckPing.Value)
+        if (Plugin.Instance.CheckFps.Value || Plugin.Instance.CheckPing.Value)
         {
-            int ping = rig.ping();
-            stringBuilder.Append($"<color={TagUtils.Instance.PingClr(ping)}>{ping} MS</color>\n");
-        }
+            string line = "";
 
-        if (Plugin.Instance.CheckFps.Value)
-            stringBuilder.Append($"<color={TagUtils.Instance.FpsClr(rig.fps)}>{rig.fps} FPS</color>\n");
+            if (Plugin.Instance.CheckFps.Value)
+            {
+                int fps  = rig.fps;
+                line += $"<color={TagUtils.Instance.FpsClr(fps)}>{fps}</color>";
+            }
+
+            if (Plugin.Instance.CheckPing.Value)
+            {
+                int    ping      = rig.ping();
+
+                string pingText  = ping == int.MaxValue ? "N/A" : ping.ToString();
+                string pingColor = ping == int.MaxValue ? "#AB0080" : TagUtils.Instance.PingClr(ping);
+
+                if (Plugin.Instance.CheckFps.Value)
+                    line += " <color=white>|</color> ";
+
+                line += $"<color={pingColor}>{pingText}</color>";
+            }
+
+            stringBuilder.Append(line + "\n");
+        }
 
         string platformTag = Plugin.Instance.CheckPlat.Value && !Plugin.Instance.UsePlatIcons.Value
                                      ? TagUtils.Instance.PlatTag(rig)
