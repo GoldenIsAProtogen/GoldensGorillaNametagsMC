@@ -11,7 +11,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace GoldensGorillaNametags.Core;
 
-public class  TagUtils : MonoBehaviour
+public class TagUtils : MonoBehaviour
 {
     public static TagUtils Instance;
 
