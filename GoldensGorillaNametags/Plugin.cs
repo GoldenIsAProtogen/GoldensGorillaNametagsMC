@@ -125,7 +125,7 @@ public class Plugin : BaseUnityPlugin
         CheckMods      = Config.Bind("Checks", "Mods",      true,  "Check mods");
         CheckSpecial   = Config.Bind("Checks", "Special",   true,  "Check special players");
         CheckFps       = Config.Bind("Checks", "FPS",       true,  "Check FPS");
-        CheckPing      = Config.Bind("Checks", "Ping",      false, "Check Ping (WIP)");
+        CheckPing      = Config.Bind("Checks", "Ping",      false, "Check Ping (Ping estimation, not 100% accurate)");
         CheckCosmetics = Config.Bind("Checks", "Cosmetics", true,  "Check cosmetics");
         CheckPlat      = Config.Bind("Checks", "Platform",  true,  "Check platform");
 
