@@ -190,11 +190,11 @@ public class TagManager : MonoBehaviour
         if (Plugin.Instance.CheckPing.Value)
         {
             int ping = rig.ping();
-            stringBuilder.Append($"<color={TagUtils.Instance.PingClr(ping)}>{ping}</color>\n");
+            stringBuilder.Append($"<color={TagUtils.Instance.PingClr(ping)}>{ping} MS</color>\n");
         }
 
         if (Plugin.Instance.CheckFps.Value)
-            stringBuilder.Append($"<color={TagUtils.Instance.FpsClr(rig.fps)}>{rig.fps}</color>\n");
+            stringBuilder.Append($"<color={TagUtils.Instance.FpsClr(rig.fps)}>{rig.fps} FPS</color>\n");
 
         string platformTag = Plugin.Instance.CheckPlat.Value && !Plugin.Instance.UsePlatIcons.Value
                                      ? TagUtils.Instance.PlatTag(rig)

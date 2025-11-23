@@ -32,9 +32,11 @@ public class Plugin : BaseUnityPlugin
     [FormerlySerializedAs("font")]    public TMP_FontAsset Font;
     [FormerlySerializedAs("mainCam")] public Transform     MainCam;
 
-    public readonly Regex               ClrTagRegex = new(@"<color=[^>]+>|</color>", RegexOptions.Compiled);
-    private         GameObject          componentHolder;
-    public          ConfigEntry<string> IconLocation;
+    public readonly Regex ClrTagRegex = new(@"<color=[^>]+>|</color>", RegexOptions.Compiled);
+
+    public readonly Dictionary<VRRig, int> playerPing = new();
+    private         GameObject             componentHolder;
+    public          ConfigEntry<string>    IconLocation;
 
     private float lastCacheT, lastUpdT;
 
@@ -105,10 +107,7 @@ public class Plugin : BaseUnityPlugin
         componentHolder.AddComponent<TagUtils>();
         componentHolder.AddComponent<TagManager>();
 
-        PlayerSerializePatch.OnPlayerSerialize += (rig) =>
-                                                  {
-                                                      playerPing[rig] = GetTruePing(rig);
-                                                  };
+        PlayerSerializePatch.OnPlayerSerialize += rig => { playerPing[rig] = GetTruePing(rig); };
     }
 
     private void InitCfg()
@@ -132,7 +131,7 @@ public class Plugin : BaseUnityPlugin
 
         UsePlatIcons = Config.Bind("Platform", "UseIcons",  true,   "Show platform as icons instead of text");
         IconSize     = Config.Bind("Platform", "Icon Size", 0.015f, "Size of the platform icons");
-        PlatIconClr = Config.Bind("Platform", "Icon Colored", true,
+        PlatIconClr  = Config.Bind("Platform", "Icon Colored", true,
                 "If the icons platform icons are colored or not");
 
         IconLocation = Config.Bind("Platform", "Icon Location", "left",
@@ -140,8 +139,6 @@ public class Plugin : BaseUnityPlugin
 
         Gf = Config.Bind("Miscellaneous", "GFriends", false, "Use GFriends");
     }
-    
-    public readonly Dictionary<VRRig, int> playerPing = new();
 
     private int GetTruePing(VRRig rig)
     {
@@ -150,7 +147,6 @@ public class Plugin : BaseUnityPlugin
 
         return safePing;
     }
-
 
     private void InitFont()
     {
