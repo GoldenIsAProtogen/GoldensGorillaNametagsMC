@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace GoldensGorillaNametags;
+namespace GoldensGorillaNametags
 
 public class NametagData
 {
