@@ -193,13 +193,13 @@ public class TagManager : MonoBehaviour
 
             if (Plugin.Instance.CheckFps.Value)
             {
-                int fps  = rig.fps;
+                int fps = rig.fps;
                 line += $"<color={TagUtils.Instance.FpsClr(fps)}>{fps}</color>";
             }
 
             if (Plugin.Instance.CheckPing.Value)
             {
-                int    ping      = rig.ping();
+                int ping = rig.ping();
 
                 string pingText  = ping == int.MaxValue ? "N/A" : ping.ToString();
                 string pingColor = ping == int.MaxValue ? "#AB0080" : TagUtils.Instance.PingClr(ping);
@@ -235,8 +235,13 @@ public class TagManager : MonoBehaviour
             stringBuilder.Append($"<color=white>{platformTag}</color>\n");
         }
 
-        string plrName = rig.OwningNetPlayer.NickName;
-        stringBuilder.AppendLine(plrName.Length > 12 ? plrName.Substring(0, 12) + "..." : plrName);
+        string plrName     = rig.OwningNetPlayer.NickName;
+        string displayName = plrName.Length > 12 ? plrName.Substring(0, 12) + "..." : plrName;
+
+        if (Plugin.Instance.TextFormatScopeCfg.Value == Plugin.TextFormatScope.NameOnly)
+            displayName = Plugin.Instance.TextFormat(displayName);
+
+        stringBuilder.AppendLine(displayName);
 
         if (!Plugin.Instance.CheckMods.Value)
             return stringBuilder.ToString();
@@ -245,7 +250,15 @@ public class TagManager : MonoBehaviour
         if (!string.IsNullOrEmpty(modTag))
             stringBuilder.Append($"<color=white><size=70%>{modTag}</size></color>");
 
-        return stringBuilder.ToString();
+        return FinalizeFormat(stringBuilder.ToString());
+    }
+
+    private string FinalizeFormat(string text)
+    {
+        if (Plugin.Instance.TextFormatScopeCfg.Value == Plugin.TextFormatScope.AllText)
+            return Plugin.Instance.TextFormat(text);
+
+        return text;
     }
 
     private void UpdTxtClr(VRRig r, TextMeshPro txt)

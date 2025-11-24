@@ -21,6 +21,27 @@ namespace GoldensGorillaNametags;
 [BepInPlugin(Constants.Guid, Constants.Name, Constants.Version)]
 public class Plugin : BaseUnityPlugin
 {
+    public enum TextCase
+    {
+        Normal,
+        Uppercase,
+        Lowercase,
+    }
+
+    public enum TextFormatScope
+    {
+        NameOnly,
+        AllText,
+    }
+
+    public enum TextStyle
+    {
+        Normal,
+        Bold,
+        Italic,
+        BoldItalic,
+    }
+
     private const float CacheInt = 150f;
 
     public static readonly string Giturl1 =
@@ -31,6 +52,9 @@ public class Plugin : BaseUnityPlugin
 
     [FormerlySerializedAs("font")]    public TMP_FontAsset Font;
     [FormerlySerializedAs("mainCam")] public Transform     MainCam;
+
+    public string FormatPrefix = "";
+    public string FormatSuffix = "";
 
     public readonly Regex ClrTagRegex = new(@"<color=[^>]+>|</color>", RegexOptions.Compiled);
 
@@ -55,7 +79,12 @@ public class Plugin : BaseUnityPlugin
                              UsePlatIcons,
                              PlatIconClr;
 
-    public ConfigEntry<float> TagSize, TagHeight, UpdInt, OutlineThick, IconSize;
+    public ConfigEntry<float>    TagSize, TagHeight, UpdInt, OutlineThick, IconSize;
+    public ConfigEntry<TextCase> TextCaseCfg;
+
+    public ConfigEntry<TextFormatScope> TextFormatScopeCfg;
+
+    public ConfigEntry<TextStyle> TextStyleCfg;
 
     public static Plugin Instance { get; private set; }
 
@@ -67,6 +96,7 @@ public class Plugin : BaseUnityPlugin
         InitFont();
         InitCam();
         InitHarmony();
+        Formatting();
         TagUtils.Instance.InitPlatIcons();
         TagUtils.Instance.RefreshCache();
     }
@@ -116,6 +146,15 @@ public class Plugin : BaseUnityPlugin
         TagHeight = Config.Bind("Tags", "Height",     0.65f, "Nametag height");
         UpdInt    = Config.Bind("Tags", "Update Int", 0.01f, "Tag update interval");
         TxtQual   = Config.Bind("Tags", "Quality",    false, "Nametag quality");
+        TextStyleCfg = Config.Bind("Tags", "Style", TextStyle.Normal,
+                "Text style: Normal, Bold, Italic, BoldItalic");
+
+        TextCaseCfg = Config.Bind("Tags", "Case", TextCase.Normal,
+                "Text casing: Normal, Uppercase, Lowercase");
+
+        TextFormatScopeCfg = Config.Bind("Tags", "Format Scope", TextFormatScope.NameOnly,
+                "Choose whether formatting applies only to player names or to all text."
+        );
 
         OutlineEnabled = Config.Bind("Outlines", "Enabled",   true,        "Tag outlines");
         OutlineQual    = Config.Bind("Outlines", "Quality",   false,       "Outline quality");
@@ -131,7 +170,7 @@ public class Plugin : BaseUnityPlugin
 
         UsePlatIcons = Config.Bind("Platform", "UseIcons",  true,   "Show platform as icons instead of text");
         IconSize     = Config.Bind("Platform", "Icon Size", 0.015f, "Size of the platform icons");
-        PlatIconClr  = Config.Bind("Platform", "Icon Colored", true,
+        PlatIconClr = Config.Bind("Platform", "Icon Colored", true,
                 "If the icons platform icons are colored or not");
 
         IconLocation = Config.Bind("Platform", "Icon Location", "left",
@@ -199,5 +238,45 @@ public class Plugin : BaseUnityPlugin
     {
         Harmony harmony = new(Constants.Guid);
         harmony.PatchAll(Assembly.GetExecutingAssembly());
+    }
+
+    public void Formatting()
+    {
+        FormatPrefix = "";
+        FormatSuffix = "";
+
+        switch (TextStyleCfg.Value)
+        {
+            case TextStyle.Bold:
+                FormatPrefix = "<b>";
+                FormatSuffix = "</b>";
+
+                break;
+
+            case TextStyle.Italic:
+                FormatPrefix = "<i>";
+                FormatSuffix = "</i>";
+
+                break;
+
+            case TextStyle.BoldItalic:
+                FormatPrefix = "<b><i>";
+                FormatSuffix = "</i></b>";
+
+                break;
+        }
+    }
+
+    public string TextFormat(string text)
+    {
+        TextCase c = TextCaseCfg.Value;
+
+        if (c      == TextCase.Uppercase) text = text.ToUpperInvariant();
+        else if (c == TextCase.Lowercase) text = text.ToLowerInvariant();
+
+        if (FormatPrefix.Length == 0)
+            return text;
+
+        return FormatPrefix + text + FormatSuffix;
     }
 }
