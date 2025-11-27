@@ -79,6 +79,8 @@ public class Plugin : BaseUnityPlugin
                              UsePlatIcons,
                              PlatIconClr;
 
+    private bool tagsEnabled;
+
     public ConfigEntry<float>    TagSize, TagHeight, UpdInt, OutlineThick, IconSize;
     public ConfigEntry<TextCase> TextCaseCfg;
 
@@ -103,6 +105,9 @@ public class Plugin : BaseUnityPlugin
 
     public void Update()
     {
+        if (!tagsEnabled)
+            return;
+
         if (Time.time - lastCacheT >= CacheInt)
         {
             TagUtils.Instance.RefreshCache();
@@ -129,6 +134,22 @@ public class Plugin : BaseUnityPlugin
         TagManager.Instance.CreateTags(currentRigs);
         TagManager.Instance.UpdateTags();
         lastUpdT = currentTime;
+    }
+
+    private void OnEnable()
+    {
+        tagsEnabled = true;
+
+        if (TagManager.Instance != null)
+            TagManager.Instance.ForceClearTags();
+    }
+
+    private void OnDisable()
+    {
+        tagsEnabled = false;
+
+        if (TagManager.Instance != null)
+            TagManager.Instance.ForceClearTags();
     }
 
     private void OnPlayerSpawned()

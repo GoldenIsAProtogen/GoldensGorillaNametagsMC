@@ -151,11 +151,11 @@ public class TagManager : MonoBehaviour
 
     private void UpdPlatIcon(NametagData data)
     {
-        if (data.PlatIconRenderer == null)
-            return;
-
-        bool shouldBeVisible = Plugin.Instance.UsePlatIcons.Value && data.CurrentPlatTex != null;
-        data.PlatIconRenderer.gameObject.SetActive(shouldBeVisible);
+        if (data.PlatIconRenderer != null)
+        {
+            bool shouldBeVisible = Plugin.Instance.UsePlatIcons.Value && data.CurrentPlatTex != null;
+            data.PlatIconRenderer.gameObject.SetActive(shouldBeVisible);
+        }
     }
 
     private void UpdTagContent(VRRig r, NametagData data)
@@ -174,6 +174,29 @@ public class TagManager : MonoBehaviour
         data.LastTxt      = txt;
         UpdTxtClr(r, data.MainTxt);
         UpdOutline(data);
+    }
+
+    public void ForceClearTags()
+    {
+        foreach (KeyValuePair<VRRig, NametagData> kv in tagMap)
+        {
+            VRRig       rig  = kv.Key;
+            NametagData data = kv.Value;
+
+            if (data != null)
+            {
+                if (data.ImgUpdCoroutine != null)
+                    StopCoroutine(data.ImgUpdCoroutine);
+
+                CleanupOutline(data);
+
+                if (data.Container != null)
+                    Destroy(data.Container);
+            }
+        }
+
+        tagMap.Clear();
+        lastTagUpd.Clear();
     }
 
     private string CreateTagTxt(VRRig rig)
