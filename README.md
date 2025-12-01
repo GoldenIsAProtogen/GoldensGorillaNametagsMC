@@ -21,3 +21,9 @@ MR     => MonkeRealism               [https://github.com/ZlothY29IQ/MonkeRealism
 GMD    => GorillaMediaDispaly        [https://github.com/ZlothY29IQ/GorillaMediaDisplay]<br>
 NM     => Dingus (networked maxwell) [https://github.com/ZlothY29IQ/Dingus]<br>
 GCS    => CustomSkin                 [https://github.com/developer9998/GorillaCustomSkin]<br>
+
+## HanSolo mods (yellow)
+
+## Illegal mods (red)
+
+## Complete weirdo mod (purple-ish color)
