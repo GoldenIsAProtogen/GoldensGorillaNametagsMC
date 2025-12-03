@@ -1,1 +1,1 @@
-### [Mods that are checked!](https://github.com/GoldenIsAProtogen/GoldensGorillaNametagsMC/blob/main/MODS.md)
+### [More Info on checked mods!](https://github.com/GoldenIsAProtogen/GoldensGorillaNametagsMC/blob/main/MODS.md)
