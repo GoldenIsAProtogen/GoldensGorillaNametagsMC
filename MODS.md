@@ -1,5 +1,3 @@
-# What does the abbreviation mean?
-
 ## Legal mods (white/blue/green)
 ODC         => Orion Drift Camera         [Private]<br>
 IC          => Input Camera               [Private]<br>
