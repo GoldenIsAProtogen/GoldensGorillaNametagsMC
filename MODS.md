@@ -102,56 +102,56 @@ DTAGS       => PepsiDee Nametags              [Private]<br>
 BDILI       => BoyDoILoveInformation          [Private]<br>
 
 ## Illegal mods (red) (these are all menus unless it says otherwise)
-METADATA MOD (quest mod metadata)
-METADATA CUSTOM OS (quest mod metadata)
-REC ROOM CHEAT (helps with rec rooming)
-VOID
-VOID 2? (void ripoff or old version?)
-CRONOS
-VIOLET PAID
-VIOLET FREE
-VIVID
-ORBIT
-CCMV2
-OBSIDIAN.LOL
-HIDDEN
-OBLIVION
-PHANTOM
-RESURGENCE
-SLIENTCC
-RENWO
-FYSMENU
-EVEWATCH
-BLEHMENU
-GENESIS
-ASTERIOD LITE
-TRANZIC
-CONTROL
-CONTROL FREE
-FLUX
-ELUX
-SERUM
-MIST/SPECTRAL
-UNTITLED
-SILLINESS
-EYEROCK REBORN
-ELYSOR PAID
-EVICTED
-EMOTEWHEEL
-MALACHI
-GHOSTELITE
-DARK
-VANTA
-PRIME
-ATLAS
-XYFER
-LOL
-LAZAROS
-ELIXIR
-SENTINEL
-VORTEX EMOTES
-SHIT COSMETX (Randomly networked cosmetx)
-COSMETX
+METADATA MOD (quest mod metadata)<br>
+METADATA CUSTOM OS (quest mod metadata)<br>
+REC ROOM CHEAT (helps with rec rooming)<br>
+VOID<br>
+VOID 2? (void ripoff or old version?)<br>
+CRONOS<br>
+VIOLET PAID<br>
+VIOLET FREE<br>
+VIVID<br>
+ORBIT<br>
+CCMV2<br>
+OBSIDIAN.LOL<br>
+HIDDEN<br>
+OBLIVION<br>
+PHANTOM<br>
+RESURGENCE<br>
+SLIENTCC<br>
+RENWO<br>
+FYSMENU<br>
+EVEWATCH<br>
+BLEHMENU<br>
+GENESIS<br>
+ASTERIOD LITE<br>
+TRANZIC<br>
+CONTROL<br>
+CONTROL FREE<br>
+FLUX<br>
+ELUX<br>
+SERUM<br>
+MIST/SPECTRAL<br>
+UNTITLED<br>
+SILLINESS<br>
+EYEROCK REBORN<br>
+ELYSOR PAID<br>
+EVICTED<br>
+EMOTEWHEEL<br>
+MALACHI<br>
+GHOSTELITE<br>
+DARK<br>
+VANTA<br>
+PRIME<br>
+ATLAS<br>
+XYFER<br>
+LOL<br>
+LAZAROS<br>
+ELIXIR<br>
+SENTINEL<br>
+VORTEX EMOTES<br>
+SHIT COSMETX (Randomly networked cosmetx)<br>
+COSMETX<br>
 
 ## Complete weirdo mod (purple-ish color)
 sex mod (what is wrong with you) => Some degenerate mod
