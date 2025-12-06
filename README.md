@@ -1,50 +1,65 @@
 # GoldensGorillaNametags
-GoldensGorillaNametags is a Gorilla Tag mod that displays player names, platforms, FPS/refresh rate, cosmetics, and more – with lots of customizability to fit your style.
-You can change nearly every aspect of nametags: size, outlines, height, icons, update speed, and more. It also supports special features like GFriends integration and platform detection.
 
-If you want your UserID to be added or removed, message me on Discord: golden.is.a.protogen
+GoldensGorillaNametags is a Gorilla Tag mod that displays detailed player information such as names, platforms, FPS/refresh rate, cosmetics, and more — all with extensive customization to fit your preferred style.
+
+Nearly every aspect of nametags can be adjusted: size, outlines, height, icons, update speed, and additional visual options. It also includes special features like GFriends integration and advanced platform detection.
+
+If you'd like your userID added or removed, message me on Discord: **golden.is.a.protogen**
 
 [More Info on checked mods!](https://github.com/GoldenIsAProtogen/GoldensGorillaNametagsMC/blob/main/MODS.md)
 
-## Features:
+## Features
 
-- Show player names, platform, FPS/HZ, cosmetics
+- Display player name, platform, FPS/Hz, and cosmetics
+
 - Customizable outlines (color, thickness, quality)
+
 - Adjustable nametag size, height, and update speed
-- Platform icons instead of text
-- GFriends support
-- Toggle special player highlighting
-- Lightweight & optimized
 
-## Customizability
+- Platform icons or text
 
-You can customise the mod through the config file. Below are some of the settings you can adjust:
+- GFriends integration
 
-## General:
+- Toggleable special-player highlighting
+
+- Lightweight and optimized for performance
+
+# Customizability
+
+You can customize the mod in the configuration file (BepinEx/Config). Below are the available settings:
+
+## General
 
 - Platform → Show platform info (text or icons)
-- Special → Highlight special players
-- FPS → Display FPS/HZ
-- Cosmetics → Show cosmetics (on/off)
-- Ping → Estimates players ping
 
-## Outlines:
+- Special → Highlight special players
+
+- FPS → Display FPS/Hz
+
+- Cosmetics → Show special cosmetics
+
+- Ping → Estimate player ping
+
+## Outlines
 
 - Enabled → Toggle nametag outlines
-- Quality → High-quality outlines (slightly heavier on performance)
-- Color → Choose outline color (000000FF = black)
-- Thickness → Adjust outline thickness
-  
-## Platform Display:
+
+- Quality → High-quality outlines (slightly higher performance cost)
+
+- Color → Outline color (e.g., 000000FF = black)
+
+- Thickness → Outline thickness
+
+## Platform Display
 
 - UseIcons → Show platform as icons instead of text
-- Icon Size → Scale platform icons
-- Tags (Nametag Settings)
+
+- IconSize → Scale platform icons
+
+## Nametag Settings
+
 - Size → Scale overall nametag size
-- Height → Adjust nametag vertical offset above player
-- Quality → Toggle higher-quality nametags
-- Update Int → Control update interval for nametags (lower = smoother, higher = less performance cost)
 
-## Miscellaneous:
+- Height → Adjust vertical offset above the player
 
-- GFriends → Enable integration with GFriends
+- Updating → Adjust how much the nametag updates
