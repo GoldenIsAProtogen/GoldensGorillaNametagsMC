@@ -45,10 +45,12 @@ public class Plugin : BaseUnityPlugin
 
     private const float CacheInt = 150f;
 
-    public static readonly string Giturl1 =
+    public static readonly string MainGitUrl =
             "https://raw.githubusercontent.com/GoldenIsAProtogen/GoldensGorillaNametags/main/";
 
-    public static readonly string Giturl2 = "https://raw.githubusercontent.com/ZenovaCS/ModChecker/main/";
+    public static readonly string ModsUrl =
+            "https://raw.githubusercontent.com/GoldenIsAProtogen/GoldensGorillaNametagsMC/main/";
+
     [FormerlySerializedAs("cineCam")] public Camera CineCam;
 
     [FormerlySerializedAs("font")]    public TMP_FontAsset Font;

@@ -54,12 +54,12 @@ public class TagUtils : MonoBehaviour
 
     public void InitPlatIcons()
     {
-        StartCoroutine(ImageCoroutine($"{Plugin.Giturl1}computer.png",       tex => cTex  = tex));
-        StartCoroutine(ImageCoroutine($"{Plugin.Giturl1}steam.png",          tex => sTex  = tex));
-        StartCoroutine(ImageCoroutine($"{Plugin.Giturl1}meta.png",           tex => mTex  = tex));
-        StartCoroutine(ImageCoroutine($"{Plugin.Giturl1}Computer_White.png", tex => wCTex = tex));
-        StartCoroutine(ImageCoroutine($"{Plugin.Giturl1}Steam_White.png",    tex => wSTex = tex));
-        StartCoroutine(ImageCoroutine($"{Plugin.Giturl1}Meta_White.png",     tex => wMTex = tex));
+        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}computer.png",       tex => cTex  = tex));
+        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}steam.png",          tex => sTex  = tex));
+        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}meta.png",           tex => mTex  = tex));
+        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}Computer_White.png", tex => wCTex = tex));
+        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}Steam_White.png",    tex => wSTex = tex));
+        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}Meta_White.png",     tex => wMTex = tex));
     }
 
     public IEnumerator UpdPlatIconCoroutine(VRRig r, NametagData data)
@@ -281,8 +281,8 @@ public class TagUtils : MonoBehaviour
                 if (valStr.Contains("wyndigo", StringComparison.OrdinalIgnoreCase))
                 {
                     string __tryGetVer = valStr
-                                     .Replace("wyndigo", "", StringComparison.OrdinalIgnoreCase)
-                                     .Trim();
+                                        .Replace("wyndigo", "", StringComparison.OrdinalIgnoreCase)
+                                        .Trim();
 
                     return $"[<color=#FF0000>WYNDIGO</color> v{__tryGetVer}]";
                 }
@@ -334,7 +334,7 @@ public class TagUtils : MonoBehaviour
         try
         {
             using WebClient client  = new();
-            string          content = client.DownloadString($"{Plugin.Giturl1}People.txt");
+            string          content = client.DownloadString($"{Plugin.MainGitUrl}People.txt");
             KeyValShit(content, cache);
         }
         catch
@@ -351,7 +351,7 @@ public class TagUtils : MonoBehaviour
         try
         {
             using WebClient client  = new();
-            string          content = client.DownloadString($"{Plugin.Giturl2}Mods.txt");
+            string          content = client.DownloadString($"{Plugin.ModsUrl}Mods.txt");
             KeyValShit(content, cache);
         }
         catch
