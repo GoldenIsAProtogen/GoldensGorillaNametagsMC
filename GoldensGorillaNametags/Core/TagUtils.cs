@@ -209,7 +209,7 @@ public class TagUtils : MonoBehaviour
         if (!Plugin.Instance.CheckMods.Value || modsCache == null)
             return string.Empty;
 
-        StringBuilder sb    = new(64);
+        StringBuilder sb    = new(128);
         Hashtable     props = r.Creator.GetPlayerRef().CustomProperties;
 
         foreach (DictionaryEntry entry in props)
@@ -223,48 +223,74 @@ public class TagUtils : MonoBehaviour
                 continue;
 
             tag = SpecialModTag(key, tag, entry.Value);
-            sb.Append(tag);
+            sb.Append(tag + " ");
         }
 
         if (Plugin.Instance.CheckCosmetics.Value && Cosmetx(r))
             sb.Append("[<color=#008000>COSMETX</color>]");
 
-        return sb.ToString();
+        return sb.ToString().Trim();
     }
 
     private string SpecialModTag(string key, string tag, object value)
     {
+        if (tag.Contains("{0}"))
+        {
+            string version = null;
+
+            if (value is Hashtable ht)
+            {
+                foreach (DictionaryEntry entry in ht)
+                    if (entry.Key is string keyStr &&
+                        string.Equals(keyStr, "Version", StringComparison.OrdinalIgnoreCase))
+                    {
+                        version = entry.Value?.ToString();
+
+                        break;
+                    }
+            }
+            else if (value is IDictionary<string, object> dict)
+            {
+                foreach (KeyValuePair<string, object> kv in dict)
+                    if (string.Equals(kv.Key, "Version", StringComparison.OrdinalIgnoreCase))
+                    {
+                        version = kv.Value?.ToString();
+
+                        break;
+                    }
+            }
+            else
+            {
+                version = value?.ToString();
+            }
+
+            if (!string.IsNullOrEmpty(version))
+                return string.Format(tag, version);
+        }
+
+        string valStr = value?.ToString().ToLower() ?? "";
         switch (key)
         {
             case "cheese is gouda":
-            {
-                string valStr = value?.ToString().ToLower() ?? "";
-
                 if (valStr.Contains("whoisthatmonke")) return "[<color=#808080>WITM!</color>]";
                 if (valStr.Contains("whoischeating")) return "[<color=#00A0FF>WIC</color>]";
 
                 return "[WI]";
-            }
 
             case "":
-            {
-                string valStr = value?.ToString().ToLower() ?? "";
+                if (valStr.Contains("wyndigo", StringComparison.OrdinalIgnoreCase))
+                {
+                    string __tryGetVer = valStr
+                                     .Replace("wyndigo", "", StringComparison.OrdinalIgnoreCase)
+                                     .Trim();
 
-                if (valStr.Contains("wyndigo")) return "[<color=#FF0000>WYNDIGO</color>]";
+                    return $"[<color=#FF0000>WYNDIGO</color> v{__tryGetVer}]";
+                }
 
                 return tag;
-            }
 
             default:
-                /// Under Contruction
-                /*
-        // Needs to be fine-tuned (figure out a better length of the generation)
-        if (Regex.IsMatch(key, @"^[a-zA-Z0-9]+$") && key.Length >= 25 && key.Length <= 45)
-        {
-            return "[<color=#00A0FF>HAMBURBUR</color>]";
-        }*/
-
-                return tag.Contains("{0}") ? string.Format(tag, value) : tag;
+                return tag;
         }
     }
 
@@ -338,10 +364,10 @@ public class TagUtils : MonoBehaviour
 
     private void KeyValShit(string content, Dictionary<string, string> dictionary)
     {
-        string[] lines = content.Split(['\n', '\r',], StringSplitOptions.RemoveEmptyEntries);
+        string[] lines = content.Split(new[] { '\n', '\r', }, StringSplitOptions.RemoveEmptyEntries);
         foreach (string line in lines)
         {
-            string[] parts = line.Split(['$',], 2);
+            string[] parts = line.Split(new[] { '$', }, 2, StringSplitOptions.None);
             if (parts.Length == 2)
             {
                 string key = FuckIndustry(parts[0]);

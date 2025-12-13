@@ -34,12 +34,13 @@ public class Plugin : BaseUnityPlugin
         AllText,
     }
 
+    [Flags]
     public enum TextStyle
     {
-        Normal,
-        Bold,
-        Italic,
-        BoldItalic,
+        Normal    = 0,
+        Bold      = 1 << 0,
+        Italic    = 1 << 1,
+        Underline = 1 << 2,
     }
 
     private const float CacheInt = 150f;
@@ -168,7 +169,7 @@ public class Plugin : BaseUnityPlugin
         UpdInt    = Config.Bind("Tags", "Update Int", 0.01f, "Tag update interval");
         TxtQual   = Config.Bind("Tags", "Quality",    false, "Nametag quality");
         TextStyleCfg = Config.Bind("Tags", "Style", TextStyle.Normal,
-                "Text style: Normal, Bold, Italic, BoldItalic");
+                "Text style");
 
         TextCaseCfg = Config.Bind("Tags", "Case", TextCase.Normal,
                 "Text casing: Normal, Uppercase, Lowercase");
@@ -180,7 +181,7 @@ public class Plugin : BaseUnityPlugin
         OutlineEnabled = Config.Bind("Outlines", "Enabled",   true,        "Tag outlines");
         OutlineQual    = Config.Bind("Outlines", "Quality",   false,       "Outline quality");
         OutlineClr     = Config.Bind("Outlines", "Color",     Color.black, "Outline color");
-        OutlineThick   = Config.Bind("Outlines", "Thickness", 0.0025f,     "Outline thickness");
+        OutlineThick   = Config.Bind("Outlines", "Thickness", 0.3f,        "Outline thickness");
 
         CheckMods      = Config.Bind("Checks", "Mods",      true,  "Check mods");
         CheckSpecial   = Config.Bind("Checks", "Special",   true,  "Check special players");
@@ -190,7 +191,7 @@ public class Plugin : BaseUnityPlugin
         CheckPlat      = Config.Bind("Checks", "Platform",  true,  "Check platform");
 
         UsePlatIcons = Config.Bind("Platform", "UseIcons",  true,   "Show platform as icons instead of text");
-        IconSize     = Config.Bind("Platform", "Icon Size", 0.015f, "Size of the platform icons");
+        IconSize     = Config.Bind("Platform", "Icon Size", 0.010f, "Size of the platform icons");
         PlatIconClr = Config.Bind("Platform", "Icon Colored", true,
                 "If the icons platform icons are colored or not");
 
@@ -227,10 +228,10 @@ public class Plugin : BaseUnityPlugin
             {
                 Font unityFont = new(fontPath);
                 Font = TxtQual.Value
-                               ? TMP_FontAsset.CreateFontAsset(unityFont, 90, 9, GlyphRenderMode.SDFAA, 4096, 4096)
+                               ? TMP_FontAsset.CreateFontAsset(unityFont, 120, 12, GlyphRenderMode.SDFAA, 4096, 4096)
                                : TMP_FontAsset.CreateFontAsset(unityFont);
 
-                Font.material.shader = Shader.Find("TextMeshPro/Mobile/Distance Field");
+                Font.material.shader = Shader.Find("TextMeshPro/Distance Field");
             }
             else
             {
@@ -266,25 +267,24 @@ public class Plugin : BaseUnityPlugin
         FormatPrefix = "";
         FormatSuffix = "";
 
-        switch (TextStyleCfg.Value)
+        TextStyle style = TextStyleCfg.Value;
+
+        if (style.HasFlag(TextStyle.Bold))
         {
-            case TextStyle.Bold:
-                FormatPrefix = "<b>";
-                FormatSuffix = "</b>";
+            FormatPrefix += "<b>";
+            FormatSuffix =  "</b>" + FormatSuffix;
+        }
 
-                break;
+        if (style.HasFlag(TextStyle.Italic))
+        {
+            FormatPrefix += "<i>";
+            FormatSuffix =  "</i>" + FormatSuffix;
+        }
 
-            case TextStyle.Italic:
-                FormatPrefix = "<i>";
-                FormatSuffix = "</i>";
-
-                break;
-
-            case TextStyle.BoldItalic:
-                FormatPrefix = "<b><i>";
-                FormatSuffix = "</i></b>";
-
-                break;
+        if (style.HasFlag(TextStyle.Underline))
+        {
+            FormatPrefix += "<u>";
+            FormatSuffix =  "</u>" + FormatSuffix;
         }
     }
 
