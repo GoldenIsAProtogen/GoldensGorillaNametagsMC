@@ -222,7 +222,7 @@ public class TagUtils : MonoBehaviour
             if (tag.Contains("{0}") && SpoofCheck(entry.Value))
                 continue;
 
-            tag = SpecialModTag(key, tag, entry.Value);
+            tag = GetVersion(key, tag, entry.Value);
             sb.Append(tag + " ");
         }
 
@@ -232,7 +232,7 @@ public class TagUtils : MonoBehaviour
         return sb.ToString().Trim();
     }
 
-    private string SpecialModTag(string key, string tag, object value)
+    private string GetVersion(string key, string tag, object value)
     {
         if (tag.Contains("{0}"))
         {
