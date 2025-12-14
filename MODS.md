@@ -152,6 +152,7 @@ SENTINEL<br>
 VORTEX EMOTES<br>
 SHIT COSMETX (Randomly networked cosmetx)<br>
 COSMETX<br>
+WYNDIGO<br>
 
 ## Complete weirdo mod (purple-ish color)
 sex mod (what is wrong with you) => Some degenerate mod
