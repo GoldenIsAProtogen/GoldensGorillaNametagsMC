@@ -49,7 +49,7 @@ public class Plugin : BaseUnityPlugin
             "https://raw.githubusercontent.com/GoldenIsAProtogen/GoldensGorillaNametags/main/";
 
     public static readonly string ModsUrl =
-            "https://raw.githubusercontent.com/GoldenIsAProtogen/GoldensGorillaNametagsMC/main/";
+            "https://raw.githubusercontent.com/GoldenIsAProtogen/GoldensGorillaNametagsMC/main/Mods.txt";
 
     [FormerlySerializedAs("cineCam")] public Camera CineCam;
 

@@ -351,7 +351,7 @@ public class TagUtils : MonoBehaviour
         try
         {
             using WebClient client  = new();
-            string          content = client.DownloadString($"{Plugin.ModsUrl}Mods.txt");
+            string          content = client.DownloadString($"{Plugin.ModsUrl}");
             KeyValShit(content, cache);
         }
         catch
