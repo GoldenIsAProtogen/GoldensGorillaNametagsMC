@@ -80,7 +80,7 @@ public class TagManager : MonoBehaviour
         data.PlatIconRenderer.sortingOrder = 10;
         data.PlatIconRenderer.gameObject.SetActive(false);
 
-        data.ImgUpdCoroutine = StartCoroutine(TagUtils.Instance.UpdPlatIcon(r, data));
+        data.ImgUpdCoroutine = StartCoroutine(TagUtils.Instance.UpdPlatIconCoroutine(r, data));
 
         return data;
     }

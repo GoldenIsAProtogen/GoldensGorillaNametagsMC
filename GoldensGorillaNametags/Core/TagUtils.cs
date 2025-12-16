@@ -62,7 +62,7 @@ public class TagUtils : MonoBehaviour
         StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}Meta_White.png",     tex => wMetaTex = tex));
     }
 
-    public IEnumerator UpdPlatIcon(VRRig r, NametagData data)
+    public IEnumerator UpdPlatIconCoroutine(VRRig r, NametagData data)
     {
         while (computerTex  == null || steamTex == null || metaTex == null || wComputerTex == null || wSteamTex == null ||
                wMetaTex == null)
