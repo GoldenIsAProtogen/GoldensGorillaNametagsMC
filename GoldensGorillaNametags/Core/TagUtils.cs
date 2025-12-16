@@ -219,7 +219,7 @@ public class TagUtils : MonoBehaviour
             if (!modsCache.TryGetValue(key, out string tag))
                 continue;
 
-            if (tag.Contains("{0}") && SpoofCheck(entry.Value))
+            if (tag.Contains("{0}") && !SpoofCheck(entry.Value))
                 continue;
 
             tag = GetVersion(key, tag, entry.Value);
@@ -299,8 +299,7 @@ public class TagUtils : MonoBehaviour
         return r.cosmeticSet.items.Any(item => !item.isNullItem &&
                                                r.concatStringOfCosmeticsAllowed?.Contains(item.itemName) != true);
     }
-
-    // This took me 3 entire hours...
+    
     private static string FuckIndustry(string key)
     {
         if (string.IsNullOrEmpty(key)) return "";
@@ -375,16 +374,48 @@ public class TagUtils : MonoBehaviour
             }
         }
     }
-
-    //probably gonna break easily ;-;
+    
+    // Hopefully better
     private bool SpoofCheck(object value)
     {
         if (value == null)
             return false;
 
-        string s = value.ToString();
+        if (value is string str)
+        {
+            if (str.StartsWith("System.", StringComparison.OrdinalIgnoreCase))
+                return false;
 
-        return s.Contains("true", StringComparison.OrdinalIgnoreCase);
+            if (Regex.IsMatch(str, @"^\d+\.\d+\.\d+$"))
+                return true;
+
+            return false;
+        }
+
+        if (value is Hashtable ht)
+        {
+            if (!ht.ContainsKey("Version"))
+                return false;
+
+            string ver = ht["Version"]?.ToString();
+            if (string.IsNullOrEmpty(ver))
+                return false;
+
+            return true;
+        }
+
+        if (value is IDictionary<string, object> dict)
+        {
+            if (!dict.TryGetValue("Version", out object verObj))
+                return false;
+
+            string ver = verObj?.ToString();
+            if (string.IsNullOrEmpty(ver))
+                return false;
+
+            return true;
+        }
+        return false;
     }
 
     private IEnumerator ImageCoroutine(string url, Action<Texture2D> onComplete)

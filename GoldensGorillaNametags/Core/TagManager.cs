@@ -238,9 +238,9 @@ public class TagManager : MonoBehaviour
 
         string platformTag = Plugin.Instance.CheckPlat.Value && !Plugin.Instance.UsePlatIcons.Value
                                      ? TagUtils.Instance.PlatTag(rig)
-                                     : "";
+                                     : string.Empty;
 
-        string cosmeticsTag = Plugin.Instance.CheckCosmetics.Value ? TagUtils.Instance.CosmeticTag(rig) : "";
+        string cosmeticsTag = Plugin.Instance.CheckCosmetics.Value ? TagUtils.Instance.CosmeticTag(rig) : string.Empty;
 
         if (Plugin.Instance.CheckPlat.Value && !Plugin.Instance.UsePlatIcons.Value &&
             Plugin.Instance.CheckCosmetics.Value)
