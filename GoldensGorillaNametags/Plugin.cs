@@ -70,21 +70,21 @@ public class Plugin : BaseUnityPlugin
     public ConfigEntry<Color> OutlineClr;
 
     public ConfigEntry<bool> OutlineEnabled,
-                             OutlineQual,
+                             OutlineQuality,
                              CheckMods,
                              CheckPlat,
                              CheckSpecial,
                              CheckFps,
                              CheckPing,
                              CheckCosmetics,
-                             Gf,
-                             TxtQual,
+                             Gfriends,
+                             TxtQuality,
                              UsePlatIcons,
                              PlatIconClr;
 
     private bool tagsEnabled;
 
-    public ConfigEntry<float>    TagSize, TagHeight, UpdInt, OutlineThick, IconSize;
+    public ConfigEntry<float>    TagSize, TagHeight, UpdInt, OutlineThickness, IconSize;
     public ConfigEntry<TextCase> TextCaseCfg;
 
     public ConfigEntry<TextFormatScope> TextFormatScopeCfg;
@@ -96,7 +96,7 @@ public class Plugin : BaseUnityPlugin
     private void Start()
     {
         Instance = this;
-        GorillaTagger.OnPlayerSpawned(OnPlayerSpawned);
+        GorillaTagger.OnPlayerSpawned(OnInit);
         InitCfg();
         InitFont();
         InitCam();
@@ -134,8 +134,8 @@ public class Plugin : BaseUnityPlugin
 
         HashSet<VRRig> currentRigs = new(GorillaParent.instance.vrrigs ?? new List<VRRig>());
         TagManager.Instance.CleanupTags(currentRigs);
-        TagManager.Instance.CreateTags(currentRigs);
-        TagManager.Instance.UpdateTags();
+        TagManager.Instance.CreateTagmap(currentRigs);
+        TagManager.Instance.UpdTags();
         lastUpdT = currentTime;
     }
 
@@ -155,7 +155,7 @@ public class Plugin : BaseUnityPlugin
             TagManager.Instance.ForceClearTags();
     }
 
-    private void OnPlayerSpawned()
+    private void OnInit()
     {
         componentHolder = new GameObject("GoldensGorillaNametags Component Holder");
         componentHolder.AddComponent<TagUtils>();
@@ -169,7 +169,7 @@ public class Plugin : BaseUnityPlugin
         TagSize   = Config.Bind("Tags", "Size",       1f,    "Nametag size");
         TagHeight = Config.Bind("Tags", "Height",     0.65f, "Nametag height");
         UpdInt    = Config.Bind("Tags", "Update Int", 0.01f, "Tag update interval");
-        TxtQual   = Config.Bind("Tags", "Quality",    false, "Nametag quality");
+        TxtQuality   = Config.Bind("Tags", "Quality",    false, "Nametag quality");
         TextStyleCfg = Config.Bind("Tags", "Style", TextStyle.Normal,
                 "Text style");
 
@@ -181,9 +181,9 @@ public class Plugin : BaseUnityPlugin
         );
 
         OutlineEnabled = Config.Bind("Outlines", "Enabled",   true,        "Tag outlines");
-        OutlineQual    = Config.Bind("Outlines", "Quality",   false,       "Outline quality");
+        OutlineQuality    = Config.Bind("Outlines", "Quality",   false,       "Outline quality");
         OutlineClr     = Config.Bind("Outlines", "Color",     Color.black, "Outline color");
-        OutlineThick   = Config.Bind("Outlines", "Thickness", 0.3f,        "Outline thickness");
+        OutlineThickness   = Config.Bind("Outlines", "Thickness", 0.3f,        "Outline thickness");
 
         CheckMods      = Config.Bind("Checks", "Mods",      true,  "Check mods");
         CheckSpecial   = Config.Bind("Checks", "Special",   true,  "Check special players");
@@ -200,7 +200,7 @@ public class Plugin : BaseUnityPlugin
         IconLocation = Config.Bind("Platform", "Icon Location", "left",
                 "Platform icon position\nAcceptable Values: top, bottom, left, right");
 
-        Gf = Config.Bind("Miscellaneous", "GFriends", false, "Use GFriends");
+        Gfriends = Config.Bind("Miscellaneous", "GFriends", false, "Use GFriends");
     }
 
     private int GetTruePing(VRRig rig)
@@ -229,7 +229,7 @@ public class Plugin : BaseUnityPlugin
             if (fontPath != null)
             {
                 Font unityFont = new(fontPath);
-                Font = TxtQual.Value
+                Font = TxtQuality.Value
                                ? TMP_FontAsset.CreateFontAsset(unityFont, 120, 12, GlyphRenderMode.SDFAA, 4096, 4096)
                                : TMP_FontAsset.CreateFontAsset(unityFont);
 
