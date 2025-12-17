@@ -284,7 +284,7 @@ public class TagUtils : MonoBehaviour
                                         .Replace("wyndigo", "", StringComparison.OrdinalIgnoreCase)
                                         .Trim();
 
-                    return $"[<color=#FF0000>WYNDIGO</color> v{__tryGetVer}]";
+                    return $"[<color=#FF0000>WYNDIGO</color> {__tryGetVer}]";
                 }
 
                 return tag;
