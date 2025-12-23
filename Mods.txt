@@ -86,6 +86,7 @@ gorillatorsoestimator$[<color=#00A0FF>GTE</color>]
 gorilla track 2.3.1$
 gorilla track packed$[<color=#00A0FF>GTRACKP</color>]
 boy do i love information$[<color=#FFFF00>BDILI</color>]
+dtaoi$[<color=00A0FF>DTAOI</color>]
 pineappleterminal$[<color=#00A0FF>PT</color>]
 cody likes burritos$[<color=#00A0FF>SUM</color>]
 fallmonke_prop$[<color=#00A0FF>FM</color>]
