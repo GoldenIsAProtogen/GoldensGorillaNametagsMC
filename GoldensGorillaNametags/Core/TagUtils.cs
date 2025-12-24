@@ -205,7 +205,7 @@ public class TagUtils : MonoBehaviour
         return sb.ToString();
     }
 
-    public string ModTag(VRRig r)
+    /*public string ModTag(VRRig r)
     {
         if (!Plugin.Instance.CheckMods.Value || modsCache == null)
             return string.Empty;
@@ -218,6 +218,41 @@ public class TagUtils : MonoBehaviour
             string key = FuckIndustry(entry.Key.ToString());
 
             if (!modsCache.TryGetValue(key, out string tag))
+                continue;
+
+            if (tag.Contains("{0}") && !SpoofCheck(entry.Value))
+                continue;
+
+            tag = GetVersion(key, tag, entry.Value);
+            sb.Append(tag + " ");
+        }
+
+        if (Plugin.Instance.CheckCosmetics.Value && Cosmetx(r))
+            sb.Append("[<color=#008000>COSMETX</color>]");
+
+        return sb.ToString().Trim();
+    }*/
+    
+    public string ModTag(VRRig r)
+    {
+        if (!Plugin.Instance.CheckMods.Value || modsCache == null)
+            return string.Empty;
+
+        StringBuilder sb    = new(128);
+        Hashtable     props = r.Creator.GetPlayerRef().CustomProperties;
+
+        foreach (DictionaryEntry entry in props)
+        {
+            string key = FuckIndustry(entry.Key.ToString());
+
+            bool isRandom26Char = Regex.IsMatch(key, @"^[a-zA-Z0-9]{26}$");
+
+            modsCache.TryGetValue(key, out string tag);
+
+            if (isRandom26Char && string.IsNullOrEmpty(tag))
+                tag = "[<color=#FFFF00>HAMBURBUR</color>]";
+
+            if (string.IsNullOrEmpty(tag))
                 continue;
 
             if (tag.Contains("{0}") && !SpoofCheck(entry.Value))

@@ -260,12 +260,17 @@ public class TagManager : MonoBehaviour
             stringBuilder.Append($"<color=white>{platformTag}</color>\n");
         }
 
-        string plrName = rig.OwningNetPlayer.NickName;
-        string displayName = plrName.Length > 12
-                                     ? plrName.Substring(0, 12) + "..."
-                                     : plrName;
+        string SanitizePlayerName(string name)
+        {
+            if (string.IsNullOrEmpty(name)) return "";
 
-        displayName = ForceSize(displayName, Plugin.Instance.TagSize.Value);
+            return Regex.Replace(name, "<.*?>", string.Empty);
+        }
+
+        string plrName = rig.OwningNetPlayer.NickName;
+        plrName = SanitizePlayerName(plrName);
+
+        string displayName = plrName.Length > 12 ? plrName.Substring(0, 12) + "..." : plrName;
 
         if (Plugin.Instance.TextFormatScopeCfg.Value == Plugin.TextFormatScope.NameOnly)
             displayName = Plugin.Instance.TextFormat(displayName);
@@ -403,20 +408,4 @@ public class TagManager : MonoBehaviour
             }
         }
     }
-
-    private string ForceSize(string text, float tagSize)
-    {
-        if (string.IsNullOrEmpty(text))
-            return text;
-
-        return ForceSizeRegex.Replace(
-                text,
-                match => $"<size={tagSize}>{match.Value}</size>"
-        );
-    }
-    
-    private static readonly Regex ForceSizeRegex = new(
-            @"[\uD83C-\uDBFF\uDC00-\uDFFF]+",
-            RegexOptions.Compiled
-    );
 }
