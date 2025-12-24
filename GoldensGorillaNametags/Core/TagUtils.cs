@@ -244,13 +244,8 @@ public class TagUtils : MonoBehaviour
         foreach (DictionaryEntry entry in props)
         {
             string key = FuckIndustry(entry.Key.ToString());
-
-            bool isRandom26Char = Regex.IsMatch(key, @"^[a-zA-Z0-9]{26}$");
-
+            
             modsCache.TryGetValue(key, out string tag);
-
-            if (isRandom26Char && string.IsNullOrEmpty(tag))
-                tag = "[<color=#FFFF00>HAMBURBUR</color>]";
 
             if (string.IsNullOrEmpty(tag))
                 continue;
@@ -267,6 +262,7 @@ public class TagUtils : MonoBehaviour
 
         return sb.ToString().Trim();
     }
+
 
     private string GetVersion(string key, string tag, object value)
     {
