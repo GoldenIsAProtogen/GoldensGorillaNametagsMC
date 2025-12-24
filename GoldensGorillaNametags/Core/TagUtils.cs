@@ -55,17 +55,18 @@ public class TagUtils : MonoBehaviour
     public void InitPlatIcons()
     {
         StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}computer.png",       tex => computerTex  = tex));
-        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}steam.png",          tex => steamTex  = tex));
-        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}meta.png",           tex => metaTex  = tex));
+        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}steam.png",          tex => steamTex     = tex));
+        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}meta.png",           tex => metaTex      = tex));
         StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}Computer_White.png", tex => wComputerTex = tex));
-        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}Steam_White.png",    tex => wSteamTex = tex));
-        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}Meta_White.png",     tex => wMetaTex = tex));
+        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}Steam_White.png",    tex => wSteamTex    = tex));
+        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}Meta_White.png",     tex => wMetaTex     = tex));
     }
 
     public IEnumerator UpdPlatIconCoroutine(VRRig r, NametagData data)
     {
-        while (computerTex  == null || steamTex == null || metaTex == null || wComputerTex == null || wSteamTex == null ||
-               wMetaTex == null)
+        while (computerTex == null || steamTex == null || metaTex == null || wComputerTex == null ||
+               wSteamTex   == null ||
+               wMetaTex    == null)
             yield return null;
 
         yield return new WaitForSeconds(2f);
@@ -240,51 +241,67 @@ public class TagUtils : MonoBehaviour
 
             if (value is Hashtable ht)
             {
-                foreach (DictionaryEntry entry in ht)
-                    if (entry.Key is string keyStr &&
-                        string.Equals(keyStr, "Version", StringComparison.OrdinalIgnoreCase))
+                foreach (DictionaryEntry e in ht)
+                    if (e.Key is string k &&
+                        string.Equals(k, "version", StringComparison.OrdinalIgnoreCase))
                     {
-                        version = entry.Value?.ToString();
+                        version = e.Value?.ToString();
 
                         break;
                     }
             }
-            else if (value is IDictionary<string, object> dict)
+            else if (value is IDictionary dict)
             {
-                foreach (KeyValuePair<string, object> kv in dict)
-                    if (string.Equals(kv.Key, "Version", StringComparison.OrdinalIgnoreCase))
+                foreach (DictionaryEntry e in dict)
+                    if (e.Key is string k &&
+                        string.Equals(k, "version", StringComparison.OrdinalIgnoreCase))
                     {
-                        version = kv.Value?.ToString();
+                        version = e.Value?.ToString();
 
                         break;
                     }
             }
-            else
+            else if (value is string str)
             {
-                version = value?.ToString();
+                Match m = Regex.Match(
+                        str,
+                        @"v?\s*([0-9]+(\.[0-9]+){1,3})",
+                        RegexOptions.IgnoreCase
+                );
+
+                if (m.Success)
+                    version = m.Groups[1].Value;
+            }
+            else if (value != null)
+            {
+                version = value.ToString();
             }
 
             if (!string.IsNullOrEmpty(version))
                 return string.Format(tag, version);
         }
 
-        string valStr = value?.ToString().ToLower() ?? "";
+        string valStr = value?.ToString() ?? "";
+
         switch (key)
         {
             case "cheese is gouda":
-                if (valStr.Contains("whoisthatmonke")) return "[<color=#808080>WITM!</color>]";
-                if (valStr.Contains("whoischeating")) return "[<color=#00A0FF>WIC</color>]";
+                if (valStr.Contains("whoisthatmonke", StringComparison.OrdinalIgnoreCase))
+                    return "[<color=#808080>WITM!</color>]";
+
+                if (valStr.Contains("whoischeating", StringComparison.OrdinalIgnoreCase))
+                    return "[<color=#00A0FF>WIC</color>]";
 
                 return "[WI]";
 
             case "":
                 if (valStr.Contains("wyndigo", StringComparison.OrdinalIgnoreCase))
                 {
-                    string __tryGetVer = valStr
-                                        .Replace("wyndigo", "", StringComparison.OrdinalIgnoreCase)
-                                        .Trim();
+                    string tryGetVer = valStr
+                                      .Replace("wyndigo", "", StringComparison.OrdinalIgnoreCase)
+                                      .Trim();
 
-                    return $"[<color=#FF0000>WYNDIGO</color> {__tryGetVer}]";
+                    return $"[<color=#FF0000>WYNDIGO</color> {tryGetVer}]";
                 }
 
                 return tag;
@@ -299,7 +316,7 @@ public class TagUtils : MonoBehaviour
         return r.cosmeticSet.items.Any(item => !item.isNullItem &&
                                                r.concatStringOfCosmeticsAllowed?.Contains(item.itemName) != true);
     }
-    
+
     private static string FuckIndustry(string key)
     {
         if (string.IsNullOrEmpty(key)) return "";
@@ -374,7 +391,7 @@ public class TagUtils : MonoBehaviour
             }
         }
     }
-    
+
     // Hopefully better
     private bool SpoofCheck(object value)
     {
@@ -386,7 +403,7 @@ public class TagUtils : MonoBehaviour
             if (str.StartsWith("System.", StringComparison.OrdinalIgnoreCase))
                 return false;
 
-            if (Regex.IsMatch(str, @"^\d+\.\d+\.\d+$"))
+            if (Regex.IsMatch(str, @"v?\s*\d+(\.\d+){1,3}", RegexOptions.IgnoreCase))
                 return true;
 
             return false;
@@ -394,27 +411,24 @@ public class TagUtils : MonoBehaviour
 
         if (value is Hashtable ht)
         {
-            if (!ht.ContainsKey("Version"))
-                return false;
+            foreach (DictionaryEntry e in ht)
+                if (e.Key is string k &&
+                    string.Equals(k, "version", StringComparison.OrdinalIgnoreCase))
+                    return true;
 
-            string ver = ht["Version"]?.ToString();
-            if (string.IsNullOrEmpty(ver))
-                return false;
-
-            return true;
+            return false;
         }
 
-        if (value is IDictionary<string, object> dict)
+        if (value is IDictionary dict)
         {
-            if (!dict.TryGetValue("Version", out object verObj))
-                return false;
+            foreach (DictionaryEntry e in dict)
+                if (e.Key is string k &&
+                    string.Equals(k, "version", StringComparison.OrdinalIgnoreCase))
+                    return true;
 
-            string ver = verObj?.ToString();
-            if (string.IsNullOrEmpty(ver))
-                return false;
-
-            return true;
+            return false;
         }
+
         return false;
     }
 

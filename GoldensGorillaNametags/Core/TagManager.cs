@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using GoldensGorillaNametags.Utils;
 using TMPro;
 using UnityEngine;
@@ -10,11 +11,12 @@ namespace GoldensGorillaNametags.Core;
 
 public class TagManager : MonoBehaviour
 {
-    private const           float                    TagUpdTime = 0.3f;
-    public static           TagManager               Instance;
-    private static readonly Vector3                  BaseScale  = Vector3.one * 0.8f;
-    private static readonly Vector3                  ImgBasePos = new(0f, 0.85f, 0f);
-    private readonly        Dictionary<VRRig, float> lastTagUpd = new();
+    private const           float      TagUpdTime = 0.3f;
+    public static           TagManager Instance;
+    private static readonly Vector3    BaseScale  = Vector3.one * 0.8f;
+    private static readonly Vector3    ImgBasePos = new(0f, 0.85f, 0f);
+
+    private readonly Dictionary<VRRig, float> lastTagUpd = new();
 
     private readonly Dictionary<VRRig, NametagData> tagMap = new();
 
@@ -258,8 +260,12 @@ public class TagManager : MonoBehaviour
             stringBuilder.Append($"<color=white>{platformTag}</color>\n");
         }
 
-        string plrName     = rig.OwningNetPlayer.NickName;
-        string displayName = plrName.Length > 12 ? plrName.Substring(0, 12) + "..." : plrName;
+        string plrName = rig.OwningNetPlayer.NickName;
+        string displayName = plrName.Length > 12
+                                     ? plrName.Substring(0, 12) + "..."
+                                     : plrName;
+
+        displayName = ForceSize(displayName, Plugin.Instance.TagSize.Value);
 
         if (Plugin.Instance.TextFormatScopeCfg.Value == Plugin.TextFormatScope.NameOnly)
             displayName = Plugin.Instance.TextFormat(displayName);
@@ -397,4 +403,20 @@ public class TagManager : MonoBehaviour
             }
         }
     }
+
+    private string ForceSize(string text, float tagSize)
+    {
+        if (string.IsNullOrEmpty(text))
+            return text;
+
+        return ForceSizeRegex.Replace(
+                text,
+                match => $"<size={tagSize}>{match.Value}</size>"
+        );
+    }
+    
+    private static readonly Regex ForceSizeRegex = new(
+            @"[\uD83C-\uDBFF\uDC00-\uDFFF]+",
+            RegexOptions.Compiled
+    );
 }
