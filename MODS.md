@@ -103,6 +103,7 @@ GWALK       => GoofyWalk                      [https://github.com/HanSolo1000Fal
 GAA         => Grate Admin Abuser             [Private]<br>
 DTAGS       => PepsiDee Nametags              [Private]<br>
 BDILI       => BoyDoILoveInformation          [Private]<br>
+BDILI-P     => BoyDoILoveInformation-Public   [https://github.com/HanSolo1000Falcon/BoyDoILoveInformation-Public]<br>
 
 ## Illegal mods (red) (these are all menus unless it says otherwise) [52]
 METADATA MOD (quest mod metadata)<br>
