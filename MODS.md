@@ -1,4 +1,4 @@
-## Legal mods (white/blue/green)
+## Legal mods (white/blue/green) [79]
 ODC         => Orion Drift Camera             [Private]<br>
 IC          => Input Camera                   [Private]<br>
 SUI         => SpankyUI                       [https://github.com/Spankypluh/SpankyUI]<br>
@@ -79,7 +79,7 @@ PFPS        => Profile Pictures               [https://github.com/The-Graze/Prof
 BN++        => BingusNametags++               [https://github.com/sirkingbinx/BingusNametagsPlusPlus]<br>
 GM          => GorillaMedia                   [https://github.com/iiDk-the-actual/GorillaMedia]<br>
 
-## Zlothy mods (purple
+## Zlothy mods (purple) [11]
 GIWRU       => GIWRoomUtils                   [https://github.com/ZlothY29IQ/RoomUtils-IW]<br>
 RRR         => RecRoomRig                     [No Link]<br>
 MC          => MonkeClick                     [No Link]<br>
@@ -92,7 +92,7 @@ DTAOI       => DamnThatsAlotOfInfo            [Private]<br>
 NFZ         => FPS-Nametags for zlothy        [https://github.com/ZlothY29IQ/Zlothy-Nametag] [https://github.com/HanSolo1000Falcon/FPS-Nametags-For-Zlothy]<br>
 WALKSIM     => WalkSimulator                  [https://github.com/ZlothY29IQ/WalkSimulator]<br>
 
-## HanSolo mods (yellow)
+## HanSolo mods (yellow) [10]
 CPS         => Custom Property Setter         [https://github.com/HanSolo1000Falcon/CustomPropertySetter]<br>
 WITM!       => Old WhoIsThatMonke             [https://github.com/HanSolo1000Falcon/WhoIsThatMonke]<br>
 WITM        => WhoIsThatMonke                 [https://github.com/HanSolo1000Falcon/WhoIsThatMonke]<br>
@@ -104,7 +104,7 @@ GAA         => Grate Admin Abuser             [Private]<br>
 DTAGS       => PepsiDee Nametags              [Private]<br>
 BDILI       => BoyDoILoveInformation          [Private]<br>
 
-## Illegal mods (red) (these are all menus unless it says otherwise)
+## Illegal mods (red) (these are all menus unless it says otherwise) [52]
 METADATA MOD (quest mod metadata)<br>
 METADATA CUSTOM OS (quest mod metadata)<br>
 REC ROOM CHEAT (helps with rec rooming)<br>
@@ -158,5 +158,5 @@ COSMETX<br>
 WYNDIGO<br>
 SKIDDED MENU<br>
 
-## Complete weirdo mod (purple-ish color)
+## Complete weirdo mod (purple-ish color) [1]
 sex mod (what is wrong with you) => Some degenerate mod
