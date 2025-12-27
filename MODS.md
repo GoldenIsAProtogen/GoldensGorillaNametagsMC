@@ -1,4 +1,4 @@
-## Legal mods (white/blue/green) [79]
+## Legal mods (white/blue/green) [80]
 ODC         => Orion Drift Camera             [Private]<br>
 IC          => Input Camera                   [Private]<br>
 SUI         => SpankyUI                       [https://github.com/Spankypluh/SpankyUI]<br>
@@ -78,6 +78,7 @@ LM          => Leg Mod                        []<br>
 PFPS        => Profile Pictures               [https://github.com/The-Graze/ProfilePictures]<br>
 BN++        => BingusNametags++               [https://github.com/sirkingbinx/BingusNametagsPlusPlus]<br>
 GM          => GorillaMedia                   [https://github.com/iiDk-the-actual/GorillaMedia]<br>
+VC          => Vael Checker                   [No Link]<br>
 
 ## Zlothy mods (purple) [11]
 GIWRU       => GIWRoomUtils                   [https://github.com/ZlothY29IQ/RoomUtils-IW]<br>
