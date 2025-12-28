@@ -26,7 +26,7 @@ If you'd like your userID added or removed, message me on Discord: **golden.is.a
 
 # Customizability
 
-You can customize the mod in the configuration file (BepinEx/Config). Below are the available settings:
+You can customize the mod in the configuration file, found here (Gorilla Tag\bepinex\config). Below are the available settings:
 
 ## General
 
