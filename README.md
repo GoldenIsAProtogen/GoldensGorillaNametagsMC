@@ -11,6 +11,7 @@ If you'd like your userID added or removed, message me on Discord: **golden.is.a
 <a href="https://github.com/GoldenIsAProtogen/GoldensGorillaNametags/releases/latest">
     <img src="https://img.shields.io/github/downloads/GoldenIsAProtogen/GoldensGorillaNametagsMC/total?label=Downloads&style=for-the-badge&color=lime" alt="Downloads">
     <img src="https://img.shields.io/github/v/release/GoldenIsAProtogen/GoldensGorillaNametagsMC?label=Version&style=for-the-badge&color=blue" alt="Version">
+    <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" alt="Status: Active">
 </a>
 
 ## Features
