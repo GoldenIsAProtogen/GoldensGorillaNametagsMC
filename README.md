@@ -9,8 +9,8 @@ If you'd like your userID added or removed, message me on Discord: **golden.is.a
 [More Info on checked mods!](https://github.com/GoldenIsAProtogen/GoldensGorillaNametagsMC/blob/main/MODS.md)<br>
 
 <a href="https://github.com/GoldenIsAProtogen/GoldensGorillaNametags/releases/latest">
-    <img src="https://img.shields.io/github/downloads/GoldenIsAProtogen/GoldensGorillaNametags/total?label=Downloads&style=for-the-badge&color=lime" alt="Downloads">
-    <img src="https://img.shields.io/github/v/release/GoldenIsAProtogen/GoldensGorillaNametags?label=Version&style=for-the-badge&color=blue" alt="Version">
+    <img src="https://img.shields.io/github/downloads/GoldenIsAProtogen/GoldensGorillaNametagsMC/total?label=Downloads&style=for-the-badge&color=lime" alt="Downloads">
+    <img src="https://img.shields.io/github/v/release/GoldenIsAProtogen/GoldensGorillaNametagsMC?label=Version&style=for-the-badge&color=blue" alt="Version">
 </a>
 
 ## Features
