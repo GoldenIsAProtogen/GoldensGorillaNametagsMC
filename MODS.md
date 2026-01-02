@@ -106,7 +106,7 @@ DTAGS       => PepsiDee Nametags              [Private]<br>
 BDILI       => BoyDoILoveInformation          [Private]<br>
 BDILI-P     => BoyDoILoveInformation-Public   [https://github.com/HanSolo1000Falcon/BoyDoILoveInformation-Public]<br>
 
-## Illegal mods (red) (these are all menus unless it says otherwise) [52]
+## Illegal mods (red) (these are all menus unless it says otherwise) [53]
 METADATA MOD (quest mod metadata)<br>
 METADATA CUSTOM OS (quest mod metadata)<br>
 REC ROOM CHEAT (helps with rec rooming)<br>
@@ -160,6 +160,7 @@ COSMETX<br>
 WYNDIGO<br>
 SKIDDED MENU<br>
 Some Sort of Cheat Menu (im actually unsure of the menu name)<br>
+Euphoric<br>
 
 ## Complete weirdo mod (purple-ish color) [1]
-sex mod (what is wrong with you) => Some degenerate mod
+NSFW mod (what is wrong with you) => Some degenerate mod
