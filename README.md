@@ -6,7 +6,7 @@ Nearly every aspect of nametags can be adjusted: size, outlines, height, icons, 
 
 If you'd like your userID added or removed, message me on Discord: **golden.is.a.protogen**
 
-[<b>PLEASE READ THIS!</b>]()<br>
+[<b>DISCLAIMER, PLEASE READ!</b>](https://github.com/GoldenIsAProtogen/GoldensGorillaNametagsMC/blob/main/DISCLAIMER.md)<br>
 
 [More Info on checked mods!](https://github.com/GoldenIsAProtogen/GoldensGorillaNametagsMC/blob/main/MODS.md)<br>
 
