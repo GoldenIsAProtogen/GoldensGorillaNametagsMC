@@ -142,7 +142,7 @@ public class TagUtils : MonoBehaviour
     {
         if (!Plugin.Instance.CheckPlat.Value) return string.Empty;
 
-        string cosmetics   = r.concatStringOfCosmeticsAllowed ?? "";
+        string cosmetics   = r.rawCosmeticString ?? "";
         string platformKey = PlatKey(cosmetics, r);
 
         return PlatClrs.TryGetValue(platformKey, out string clr)
@@ -165,10 +165,10 @@ public class TagUtils : MonoBehaviour
 
     private Texture2D PlatTex(VRRig r)
     {
-        if (r?.concatStringOfCosmeticsAllowed == null)
+        if (r?.rawCosmeticString == null)
             return null;
 
-        string cosmetics = r.concatStringOfCosmeticsAllowed;
+        string cosmetics = r.rawCosmeticString;
         int    propCount = r.OwningNetPlayer.GetPlayerRef().CustomProperties.Count;
 
         if (Plugin.Instance.PlatIconClr.Value)
@@ -196,7 +196,7 @@ public class TagUtils : MonoBehaviour
         if (!Plugin.Instance.CheckCosmetics.Value) return string.Empty;
 
         StringBuilder sb        = new(32);
-        string        cosmetics = r.concatStringOfCosmeticsAllowed ?? "";
+        string        cosmetics = r.rawCosmeticString ?? "";
 
         foreach (KeyValuePair<string, string> cosmetic in CosTags)
             if (cosmetics.Contains(cosmetic.Key))
@@ -314,7 +314,7 @@ public class TagUtils : MonoBehaviour
     private bool Cosmetx(VRRig r)
     {
         return r.cosmeticSet.items.Any(item => !item.isNullItem &&
-                                               r.concatStringOfCosmeticsAllowed?.Contains(item.itemName) != true);
+                                               r.rawCosmeticString?.Contains(item.itemName) != true);
     }
 
     private static string FuckIndustry(string key)
