@@ -1,4 +1,4 @@
-## Legal mods (white/blue/green) [80]
+## Legal mods (white/blue/green) [81]
 ODC         => Orion Drift Camera             [Private]<br>
 IC          => Input Camera                   [Private]<br>
 SUI         => SpankyUI                       [https://github.com/Spankypluh/SpankyUI]<br>
@@ -10,6 +10,7 @@ GSH!        => Old GorillaShirts              [https://github.com/developer9998/
 GSH         => GorillShirts                   [https://github.com/developer9998/GorillaShirts]<br>
 GIW!        => Old GorillaInfoWatch           [https://github.com/developer9998/GorillaInfoWatch]<br>
 GIW         => GorillaInfoWatch               [https://github.com/developer9998/GorillaInfoWatch-Lite] [https://github.com/developer9998/GorillaInfoWatch]<br>
+GCB         => GorillaChatBox                 [https://github.com/developer9998/GorillaChatBox]<br>
 GCS         => CustomSkin                     [https://github.com/developer9998/GorillaCustomSkin]<br>
 GPR         => GorillaPronouns                [https://github.com/developer9998/GorillaPronouns]<br>
 GF          => GorillaFaces                   [https://github.com/developer9998/GorillaFaces]<br>
