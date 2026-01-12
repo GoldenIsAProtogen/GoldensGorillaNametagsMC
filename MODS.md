@@ -108,7 +108,7 @@ DTAGS       => PepsiDee Nametags              [Private]<br>
 BDILI       => BoyDoILoveInformation          [Private]<br>
 BDILI-P     => BoyDoILoveInformation-Public   [https://github.com/HanSolo1000Falcon/BoyDoILoveInformation-Public]<br>
 
-## Illegal mods (red) (these are all menus unless it says otherwise) [53]
+## Illegal mods (red) (All menus, unless told otherwise) [53]
 METADATA MOD (quest mod metadata)<br>
 METADATA CUSTOM OS (quest mod metadata)<br>
 REC ROOM CHEAT (helps with rec rooming)<br>
