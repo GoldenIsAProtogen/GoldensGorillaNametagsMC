@@ -1,4 +1,4 @@
-## Legal mods (white/blue/green) [81]
+## Legal mods (white/blue/green) [82]
 ODC         => Orion Drift Camera             [Private]<br>
 IC          => Input Camera                   [Private]<br>
 SUI         => SpankyUI                       [https://github.com/Spankypluh/SpankyUI]<br>
@@ -40,7 +40,7 @@ I           => Index                          [Currently Unknown]<br>
 GUS         => GorillaAmongUs                 [Currently Unknown]<br>
 CAMMOD      => CameraMod                      [Private]<br>
 ArielCam    => CameraMod                      [Private]<br>
-GCAB        => GorillaCraftAutoBuilder        []<br>
+GCAB        => GorillaCraftAutoBuilder        [Private]<br>
 ST          => Spectape                       [https://github.com/arielthemonke/Spectape]<br>
 CATS        => FreeCam/Util                   [Currently Unknown]<br>
 CATS-UPD    => Updated cats                   [Currently Unknown]<br>
@@ -80,6 +80,7 @@ PFPS        => Profile Pictures               [https://github.com/The-Graze/Prof
 BN++        => BingusNametags++               [https://github.com/sirkingbinx/BingusNametagsPlusPlus]<br>
 GM          => GorillaMedia                   [https://github.com/iiDk-the-actual/GorillaMedia]<br>
 VC          => Vael Checker                   [No Link]<br>
+SBP         => Spoof by Pulse                 [https://github.com/HauntPulse/Mod-Spoofer]<br>
 
 ## Zlothy mods (purple) [11]
 GIWRU       => GIWRoomUtils                   [https://github.com/ZlothY29IQ/RoomUtils-IW]<br>
