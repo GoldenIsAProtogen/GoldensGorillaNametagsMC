@@ -1,10 +1,10 @@
-## Legal mods (white/blue/green) [82]
+https://github.com/NgbatzYT/MonkeCosmetics## Legal mods (white/blue/green) [83]
 ODC         => Orion Drift Camera             [Private]<br>
 IC          => Input Camera                   [Private]<br>
 SUI         => SpankyUI                       [https://github.com/Spankypluh/SpankyUI]<br>
 GP          => GorillaPad                     [https://github.com/E14O/GorillaPad]<br>
 HP          => HoldablePad                    [https://github.com/ZlothY29IQ/HoldablePad]<br>
-GC          => GorillaCraft                   [https://github.com/developer9998/GorillaCraft]<br>
+GCraft      => GorillaCraft                   [https://github.com/developer9998/GorillaCraft]<br>
 GSH!!       => Very Old GorillaShirts         [Inaccessible]<br>
 GSH!        => Old GorillaShirts              [https://github.com/developer9998/GorillaShirts-Legacy]<br>
 GSH         => GorillShirts                   [https://github.com/developer9998/GorillaShirts]<br>
@@ -49,8 +49,9 @@ DOGS2?      => DOGS again? (idk fr)           [Currently Unknown]<br>
 DOGSBUTSHIT => DOGS rip-off                   [Currently Unknown]<br>
 MM          => FYS magic mod                  [Currently Unknown]<br>
 BP          => BananaPhone                    [Currently Unknown]<br>
-CC!         => Old customcosmetics            [Currently Unknown]<br>
-CC          => CustomCosmetics                [https://github.com/wryser/CustomCosmetics]<br>
+CC          => Old customcosmetics            [https://github.com/wryser/CustomCosmetics]<br>
+GC          => GorillaCosmetics               [https://github.com/developer9998/gorillacosmetics] [https://github.com/legoandmars/GorillaCosmetics]<br>
+MC          => CustomCosmetics                [https://github.com/NgbatzYT/MonkeCosmetics]<br>
 CT          => ChainedTogether                [Currently Unknown]<br>
 ShinyUtils  => ShinyUtils                     [Private]<br>
 BWASD       => BlueyWASD                      [Private]<br>
@@ -85,8 +86,8 @@ SBP         => Spoof by Pulse                 [https://github.com/HauntPulse/Mod
 ## Zlothy mods (purple) [11]
 GIWRU       => GIWRoomUtils                   [https://github.com/ZlothY29IQ/RoomUtils-IW]<br>
 RRR         => RecRoomRig                     [Private?]<br>
-MC          => MonkeClick                     [https://github.com/baggZ-idk/MonkeClick]<br>
-MC-CI       => MC-ComputerIneterface          [https://github.com/ZlothY29IQ/MonkeClick-CI]<br>
+MClick      => MonkeClick                     [https://github.com/baggZ-idk/MonkeClick]<br>
+MClick-CI   => MC-ComputerIneterface          [https://github.com/ZlothY29IQ/MonkeClick-CI]<br>
 TMI         => TooMuchInfo                    [https://github.com/ZlothY29IQ/TooMuchInfo]<br>
 MR          => MonkeRealism                   [https://github.com/ZlothY29IQ/MonkeRealism]<br>
 GMD         => GorillaMediaDispaly            [https://github.com/ZlothY29IQ/GorillaMediaDisplay]<br>
