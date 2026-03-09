@@ -15,225 +15,214 @@ public class TagUtils : MonoBehaviour
 {
     public static TagUtils Instance;
 
-    private static readonly Dictionary<int, string> FpsClrs = new()
+    private static readonly Dictionary<int, string> FpsColors = new()
     {
-            { 250, "#800080" }, { 200, "#1E90FF" }, { 150, "#006400" },
-            { 100, "#00FF00" }, { 75, "#ADFF2F" }, { 55, "#FFFF00" },
-            { 45, "#FFA500" }, { 30, "#FF0000" }, { 29, "#8B0000" },
+            { 250, "#800080" }, { 200, "#1e90ff" }, { 150, "#006400" },
+            { 100, "#00ff00" }, { 75, "#adff2f" }, { 55, "#ffff00" },
+            { 45, "#ffa500" }, { 30, "#ff0000" }, { 29, "#8b0000" },
     };
 
-    private static readonly Dictionary<int, string> PingClrs = new()
+    private static readonly Dictionary<int, string> PingColors = new()
     {
-            { 25, "#800080" }, { 35, "#1E90FF" }, { 55, "#006400" },
-            { 75, "#00FF00" }, { 90, "#ADFF2F" }, { 120, "#FFFF00" },
-            { 150, "#FFA500" }, { 200, "#FF0000" }, { 250, "#8B0000" },
+            { 25, "#800080" }, { 35, "#1e90ff" }, { 55, "#006400" },
+            { 75, "#00ff00" }, { 90, "#adff2f" }, { 120, "#ffff00" },
+            { 150, "#ffa500" }, { 200, "#ff0000" }, { 250, "#8b0000" },
     };
 
-    private static readonly Dictionary<string, string> PlatClrs = new()
+    private static readonly Dictionary<string, string> PlatColors = new()
     {
-            { "SVR", "#ffff00" },
+            { "STEAMVR", "#ffff00" },
+            { "QUESTPC", "#ffaa00" },
             { "PCVR", "#ff0000" },
-            { "O", "#00ff00" },
+            { "QUEST", "#00ff00" },
+            { "UNKNOWN", "#808080"},
     };
 
-    private static readonly Dictionary<string, string> CosTags = new()
+    private static readonly Dictionary<string, string> SpecialCosmetics = new()
     {
-            { "LBANI.", "[<color=#FCC200>AAC</color>]" }, { "LBADE.", "[<color=#FCC200>FP</color>]" },
-            { "LBAGS.", "[<color=#FCC200>ILL</color>]" }, { "LBAAK.", "[<color=#FF0000>S</color>]" },
-            { "LMAPY.", "[<color=#C80000>FS</color>]" }, { "LBAAD.", "[<color=#960000>A</color>]" },
+            { "LBANI.", "[<color=#fcc200>AAC</color>]" }, { "LBADE.", "[<color=#fcc200>FP</color>]" },
+            { "LBAGS.", "[<color=#fcc200>ILL</color>]" }, { "LBAAK.", "[<color=#ff0000>S</color>]" },
+            { "LMAPY.", "[<color=#c80000>FS</color>]" }, { "LBAAD.", "[<color=#960000>A</color>]" },
             { "LMAGB.", "[<color=#ffffff>CG</color>]" }, { "LMAKH.", "[<color=#ffffff>ZC</color>]" },
             { "LMAJD.", "[<color=#ffffff>DK</color>]" }, { "LMAHF.", "[<color=#ffffff>CFP</color>]" },
             { "LMAAQ.", "[<color=#ffffff>ST</color>]" }, { "LMAAV.", "[<color=#ffffff>HTS</color>]" },
     };
 
-    private Texture2D computerTex, steamTex, metaTex, wComputerTex, wSteamTex, wMetaTex;
+    private Texture2D computerTex, steamTex, metaTex;
 
     private Dictionary<string, string> specialCache, modsCache;
 
     private void Awake() => Instance = this;
 
-    public void InitPlatIcons()
+    public void DownloadPlatformIcons()
     {
         StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}computer.png",       tex => computerTex  = tex));
         StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}steam.png",          tex => steamTex     = tex));
         StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}meta.png",           tex => metaTex      = tex));
-        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}Computer_White.png", tex => wComputerTex = tex));
-        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}Steam_White.png",    tex => wSteamTex    = tex));
-        StartCoroutine(ImageCoroutine($"{Plugin.MainGitUrl}Meta_White.png",     tex => wMetaTex     = tex));
     }
 
-    public IEnumerator UpdPlatIconCoroutine(VRRig r, NametagData data)
+    public IEnumerator UpdatePlatformIconCoroutine(VRRig rig, NametagData data)
     {
-        while (computerTex == null || steamTex == null || metaTex == null || wComputerTex == null ||
-               wSteamTex   == null ||
-               wMetaTex    == null)
+        while (computerTex == null || steamTex == null || metaTex == null)
             yield return null;
 
         yield return new WaitForSeconds(2f);
 
-        while (r != null && data?.PlatIconRenderer != null)
+        while (rig != null && data?.PlatformIconRenderer != null)
         {
-            if (Plugin.Instance.UsePlatIcons.Value && Plugin.Instance.CheckPlat.Value)
+            if (Plugin.Instance.UsePlatIcons.Value && Plugin.Instance.CheckPlatform.Value)
             {
-                UpdPlatIconTex(r, data);
+                UpdatePlatformIconTex(rig, data);
             }
             else
             {
-                data.CurrentPlatTex          = null;
-                data.PlatIconRenderer.sprite = null;
-                data.PlatIconRenderer.gameObject.SetActive(false);
+                data.CurrentPlatformTex          = null;
+                data.PlatformIconRenderer.sprite = null;
+                data.PlatformIconRenderer.gameObject.SetActive(false);
             }
 
             yield return new WaitForSeconds(10f);
         }
     }
 
-    private void UpdPlatIconTex(VRRig r, NametagData data)
+    private void UpdatePlatformIconTex(VRRig rig, NametagData data)
     {
-        Texture2D newPlatTex = PlatTex(r);
+        Texture2D newPlatTex = PlatformTex(rig);
 
-        if (newPlatTex == data.CurrentPlatTex)
+        if (newPlatTex == data.CurrentPlatformTex)
             return;
 
-        data.CurrentPlatTex = newPlatTex;
+        data.CurrentPlatformTex = newPlatTex;
 
         if (newPlatTex != null)
         {
-            data.PlatIconRenderer.sprite = Sprite.Create(newPlatTex,
+            data.PlatformIconRenderer.sprite = Sprite.Create(newPlatTex,
                     new Rect(0, 0, newPlatTex.width, newPlatTex.height),
                     Vector2.one * 0.5f);
 
-            data.PlatIconRenderer.gameObject.SetActive(true);
+            data.PlatformIconRenderer.gameObject.SetActive(true);
         }
         else
         {
-            data.PlatIconRenderer.sprite = null;
-            data.PlatIconRenderer.gameObject.SetActive(false);
+            data.PlatformIconRenderer.sprite = null;
+            data.PlatformIconRenderer.gameObject.SetActive(false);
         }
     }
 
-    public string FpsClr(int fps)
+    public string FpsColor(int fps)
     {
-        foreach (KeyValuePair<int, string> threshold in FpsClrs.OrderByDescending(kv => kv.Key))
+        foreach (KeyValuePair<int, string> threshold in FpsColors.OrderByDescending(kv => kv.Key))
             if (fps >= threshold.Key)
                 return threshold.Value;
 
         return "#600000";
     }
 
-    public string PingClr(int ping)
+    public string PingColor(int ping)
     {
-        foreach (KeyValuePair<int, string> threshold in PingClrs.OrderByDescending(kv => kv.Key))
+        foreach (KeyValuePair<int, string> threshold in PingColors.OrderByDescending(kv => kv.Key))
             if (ping >= threshold.Key)
                 return threshold.Value;
 
-        return "#AB0080";
+        return "#ab0080";
     }
 
-    public string SpecialTag(VRRig r)
+    public string SpecialPlayerTag(VRRig rig)
     {
-        if (!Plugin.Instance.CheckSpecial.Value || r?.OwningNetPlayer == null || specialCache == null)
+        if (!Plugin.Instance.CheckSpecial.Value || rig?.Creator == null || specialCache == null)
             return string.Empty;
 
-        return specialCache.TryGetValue(r.OwningNetPlayer.UserId, out string specialTag) ? specialTag : string.Empty;
+        return specialCache.TryGetValue(rig.Creator.UserId, out string specialTag) ? specialTag : string.Empty;
     }
 
-    public string PlatTag(VRRig r)
+    public string PlatformTag(VRRig rig)
     {
-        if (!Plugin.Instance.CheckPlat.Value) return string.Empty;
+        if (!Plugin.Instance.CheckPlatform.Value) return string.Empty;
 
-        string cosmetics   = r.rawCosmeticString ?? "";
-        string platformKey = PlatKey(cosmetics, r);
+        string cosmetics   = rig._playerOwnedCosmetics.Concat() ?? "";
+        string platformKey = PlatformKey(cosmetics, rig);
 
-        return PlatClrs.TryGetValue(platformKey, out string clr)
+        return PlatColors.TryGetValue(platformKey, out string clr)
                        ? $"[<color={clr}>{platformKey}</color>]"
-                       : "[Unknown]";
+                       : $"[{platformKey}]";
     }
 
-    private string PlatKey(string cosmetics, VRRig r)
+    private string PlatformKey(string cosmetics, VRRig rig)
     {
-        if (string.IsNullOrEmpty(cosmetics) || r?.OwningNetPlayer == null) return "Unknown";
+        int propCount = rig.Creator.GetPlayerRef().CustomProperties.Count;
 
-        int propCount = r.OwningNetPlayer.GetPlayerRef().CustomProperties.Count;
+        if (rig.initializedCosmetics)
+        {
+            if (cosmetics.Contains("S. FIRST LOGIN")) return "STEAMVR";
+            if (cosmetics.Contains("game-purchase-bundle")) return "QUESTPC";
+            if (cosmetics.Contains("FIRST LOGIN") || propCount > 1 || rig.currentRankedSubTierPC > 0) return "PCVR";
 
-        if (cosmetics.Contains("S. FIRST LOGIN")) return "SVR";
-        if (cosmetics.Contains("FIRST LOGIN")  || propCount >= 2) return "PCVR";
-        if (!cosmetics.Contains("FIRST LOGIN") || cosmetics.Contains("LMAKT.")) return "O";
-
-        return "Unknown";
+            return rig.currentRankedSubTierQuest > 0 ? "QUEST" : "UNKNOWN";
+        }
+        
+        return "LOADING...";
     }
 
-    private Texture2D PlatTex(VRRig r)
+    private Texture2D PlatformTex(VRRig rig)
     {
-        if (r?.rawCosmeticString == null)
+        if (rig?._playerOwnedCosmetics.Concat() == null)
             return null;
 
-        string cosmetics = r.rawCosmeticString;
-        int    propCount = r.OwningNetPlayer.GetPlayerRef().CustomProperties.Count;
-
-        if (Plugin.Instance.PlatIconClr.Value)
-        {
-            if (cosmetics.Contains("S. FIRST LOGIN"))
-                return steamTex;
-
-            if (cosmetics.Contains("FIRST LOGIN") || propCount >= 2)
-                return computerTex;
-
-            return metaTex;
-        }
+        string cosmetics = rig._playerOwnedCosmetics.Concat();
+        int    propCount = rig.Creator.GetPlayerRef().CustomProperties.Count;
 
         if (cosmetics.Contains("S. FIRST LOGIN"))
-            return wSteamTex;
+            return steamTex;
 
         if (cosmetics.Contains("FIRST LOGIN") || propCount >= 2)
-            return wComputerTex;
+            return computerTex;
 
-        return wMetaTex;
+        return metaTex;
     }
 
-    public string CosmeticTag(VRRig r)
+    public string SpecialCosmeticsTag(VRRig rig)
     {
         if (!Plugin.Instance.CheckCosmetics.Value) return string.Empty;
 
         StringBuilder sb        = new(32);
-        string        cosmetics = r.rawCosmeticString ?? "";
+        string        cosmetics = rig._playerOwnedCosmetics.Concat() ?? "";
 
-        foreach (KeyValuePair<string, string> cosmetic in CosTags)
+        foreach (KeyValuePair<string, string> cosmetic in SpecialCosmetics)
             if (cosmetics.Contains(cosmetic.Key))
                 sb.Append(cosmetic.Value);
 
         return sb.ToString();
     }
 
-    public string ModTag(VRRig r)
+    public string PlayerModsTag(VRRig rig)
     {
         if (!Plugin.Instance.CheckMods.Value || modsCache == null)
             return string.Empty;
 
         StringBuilder sb    = new(128);
-        Hashtable     props = r.Creator.GetPlayerRef().CustomProperties;
+        Hashtable     props = rig.Creator.GetPlayerRef().CustomProperties;
 
         foreach (DictionaryEntry entry in props)
         {
-            string key = FuckIndustry(entry.Key.ToString());
+            string key = StringNormalization(entry.Key.ToString());
 
             if (!modsCache.TryGetValue(key, out string tag))
                 continue;
 
-            if (tag.Contains("{0}") && !SpoofCheck(entry.Value))
+            if (tag.Contains("{0}") && !ModSpoofCheck(entry.Value))
                 continue;
 
-            tag = GetVersion(key, tag, entry.Value);
+            tag = GetModVersion(key, tag, entry.Value);
             sb.Append(tag + " ");
         }
 
-        if (Plugin.Instance.CheckCosmetics.Value && Cosmetx(r))
-            sb.Append("[<color=#008000>COSMETX</color>]");
+        if (Plugin.Instance.CheckCosmetics.Value && HasCosmetx(rig))
+            sb.Append("[<color=#FF0000>COSMETX</color>]");
 
         return sb.ToString().Trim();
     }
 
-    private string GetVersion(string key, string tag, object value)
+    private string GetModVersion(string key, string tag, object value)
     {
         if (tag.Contains("{0}"))
         {
@@ -311,13 +300,12 @@ public class TagUtils : MonoBehaviour
         }
     }
 
-    private bool Cosmetx(VRRig r)
+    private bool HasCosmetx(VRRig rig)
     {
-        return r.cosmeticSet.items.Any(item => !item.isNullItem &&
-                                               r.rawCosmeticString?.Contains(item.itemName) != true);
+        return rig.cosmeticSet.items.Any(item => !item.isNullItem && rig._playerOwnedCosmetics.Concat()?.Contains(item.itemName) != true);
     }
 
-    private static string FuckIndustry(string key)
+    private static string StringNormalization(string key)
     {
         if (string.IsNullOrEmpty(key)) return "";
         key = key.Replace("\r", "");
@@ -330,28 +318,28 @@ public class TagUtils : MonoBehaviour
     public void RefreshCache()
     {
         if (Plugin.Instance.CheckSpecial.Value || Plugin.Instance.CheckMods.Value)
-            StartCoroutine(UpdCacheCoroutine());
+            StartCoroutine(UpdateCacheCoroutine());
     }
 
-    private IEnumerator UpdCacheCoroutine()
+    private IEnumerator UpdateCacheCoroutine()
     {
         yield return new WaitForEndOfFrame();
 
         if (Plugin.Instance.CheckSpecial.Value)
-            specialCache = SpecialCache();
+            specialCache = SpecialPlayerCache();
 
         if (Plugin.Instance.CheckMods.Value)
-            modsCache = ModCache();
+            modsCache = ModsCache();
     }
 
-    private Dictionary<string, string> SpecialCache()
+    private Dictionary<string, string> SpecialPlayerCache()
     {
         Dictionary<string, string> cache = new(StringComparer.OrdinalIgnoreCase);
         try
         {
             using WebClient client  = new();
             string          content = client.DownloadString($"{Plugin.MainGitUrl}People.txt");
-            KeyValShit(content, cache);
+            ParseKeyValues(content, cache);
         }
         catch
         {
@@ -361,14 +349,14 @@ public class TagUtils : MonoBehaviour
         return cache;
     }
 
-    private Dictionary<string, string> ModCache()
+    private Dictionary<string, string> ModsCache()
     {
         Dictionary<string, string> cache = new(StringComparer.OrdinalIgnoreCase);
         try
         {
             using WebClient client  = new();
-            string          content = client.DownloadString($"{Plugin.ModsUrl}");
-            KeyValShit(content, cache);
+            string          content = client.DownloadString($"{Plugin.ModsGitUrl}");
+            ParseKeyValues(content, cache);
         }
         catch
         {
@@ -378,7 +366,7 @@ public class TagUtils : MonoBehaviour
         return cache;
     }
 
-    private void KeyValShit(string content, Dictionary<string, string> dictionary)
+    private void ParseKeyValues(string content, Dictionary<string, string> dictionary)
     {
         string[] lines = content.Split(new[] { '\n', '\r', }, StringSplitOptions.RemoveEmptyEntries);
         foreach (string line in lines)
@@ -386,14 +374,14 @@ public class TagUtils : MonoBehaviour
             string[] parts = line.Split(new[] { '$', }, 2, StringSplitOptions.None);
             if (parts.Length == 2)
             {
-                string key = FuckIndustry(parts[0]);
+                string key = StringNormalization(parts[0]);
                 dictionary[key] = parts[1].Trim();
             }
         }
     }
 
     // Hopefully better
-    private bool SpoofCheck(object value)
+    private bool ModSpoofCheck(object value)
     {
         if (value == null)
             return false;
