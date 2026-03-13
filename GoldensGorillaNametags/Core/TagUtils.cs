@@ -5,6 +5,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using PlayFab;
+using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.Networking;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -49,6 +52,9 @@ public class TagUtils : MonoBehaviour
     };
 
     private Texture2D computerTex, steamTex, metaTex;
+    
+    private static readonly DateTime                     AddedSteamPaymentDate  = new(2023, 02, 06);
+    private static readonly Dictionary<string, DateTime> PlayerCreationDateDict = new();
 
     private Dictionary<string, string> specialCache, modsCache;
 
@@ -142,25 +148,62 @@ public class TagUtils : MonoBehaviour
         string cosmetics   = rig._playerOwnedCosmetics.Concat() ?? "";
         string platformKey = PlatformKey(cosmetics, rig);
 
-        return PlatColors.TryGetValue(platformKey, out string clr)
-                       ? $"[<color={clr}>{platformKey}</color>]"
-                       : $"[{platformKey}]";
+        return PlatColors.TryGetValue(platformKey, out string clr) ? $"[<color={clr}>{platformKey}</color>]" : $"[{platformKey}]";
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     private string PlatformKey(string cosmetics, VRRig rig)
     {
+        
         int propCount = rig.Creator.GetPlayerRef().CustomProperties.Count;
 
         if (rig.initializedCosmetics)
         {
             if (cosmetics.Contains("S. FIRST LOGIN")) return "STEAMVR";
-            if (cosmetics.Contains("game-purchase-bundle")) return "QUESTPC";
-            if (cosmetics.Contains("FIRST LOGIN") || propCount > 1 || rig.currentRankedSubTierPC > 0) return "PCVR";
+            if (cosmetics.Contains("FIRST LOGIN") || cosmetics.Contains("game-purchase-bundle")) return "QUESTPC";
+            if (propCount > 1 || rig.currentRankedSubTierPC > 0) return "PCVR";
+            if (rig.currentRankedSubTierQuest > 0) return "QUEST";
+            
+            DateTime? playerCreationDate = GetPlayerCreationDate(rig.Creator.UserId);
+            
+            if (playerCreationDate.HasValue && playerCreationDate.Value > AddedSteamPaymentDate)
+                return "QUEST";
 
-            return rig.currentRankedSubTierQuest > 0 ? "QUEST" : "UNKNOWN";
+            return "UNKNOWN";
         }
         
-        return "LOADING...";
+        return "LOADING..."; // it also shows this when someone doesnt have cosmetics on
+    }
+    
+    private DateTime? GetPlayerCreationDate(string playFabId)
+    {
+        if (PlayerCreationDateDict.TryGetValue(playFabId, out DateTime cachedDate))
+            return cachedDate;
+
+        _ = FetchCreationDateAsync(playFabId);
+        return null;
+    }
+
+    private async Task FetchCreationDateAsync(string playFabId)
+    {
+        if (PlayerCreationDateDict.ContainsKey(playFabId))
+            return;
+
+        TaskCompletionSource<GetAccountInfoResult> tcs = new();
+
+        PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest { PlayFabId = playFabId, },
+                result => tcs.SetResult(result),
+                error  => tcs.SetException(new Exception(error.ErrorMessage)));
+
+        try
+        {
+            GetAccountInfoResult result = await tcs.Task;
+            PlayerCreationDateDict[playFabId] = result.AccountInfo.Created;
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     private Texture2D PlatformTex(VRRig rig)
@@ -204,7 +247,7 @@ public class TagUtils : MonoBehaviour
 
         foreach (DictionaryEntry entry in props)
         {
-            string key = StringNormalization(entry.Key.ToString());
+            string key = entry.Key.ToString();
 
             if (!modsCache.TryGetValue(key, out string tag))
                 continue;
@@ -228,42 +271,59 @@ public class TagUtils : MonoBehaviour
         {
             string version = null;
 
-            if (value is Hashtable ht)
+            switch (value)
             {
-                foreach (DictionaryEntry e in ht)
-                    if (e.Key is string k &&
-                        string.Equals(k, "version", StringComparison.OrdinalIgnoreCase))
+                case Hashtable ht:
+                {
+                    foreach (DictionaryEntry e in ht)
+                        if (e.Key is string k &&
+                            string.Equals(k, "version", StringComparison.OrdinalIgnoreCase))
+                        {
+                            version = e.Value?.ToString();
+
+                            break;
+                        }
+
+                    break;
+                }
+
+                case IDictionary dict:
+                {
+                    foreach (DictionaryEntry e in dict)
+                        if (e.Key is string k &&
+                            string.Equals(k, "version", StringComparison.OrdinalIgnoreCase))
+                        {
+                            version = e.Value?.ToString();
+
+                            break;
+                        }
+
+                    break;
+                }
+
+                case string str:
+                {
+                    Match m = Regex.Match(
+                            str,
+                            @"v?\s*([0-9]+(\.[0-9]+){1,3})",
+                            RegexOptions.IgnoreCase
+                    );
+
+                    if (m.Success)
+                        version = m.Groups[1].Value;
+
+                    break;
+                }
+
+                default:
+                {
+                    if (value != null)
                     {
-                        version = e.Value?.ToString();
-
-                        break;
+                        version = value.ToString();
                     }
-            }
-            else if (value is IDictionary dict)
-            {
-                foreach (DictionaryEntry e in dict)
-                    if (e.Key is string k &&
-                        string.Equals(k, "version", StringComparison.OrdinalIgnoreCase))
-                    {
-                        version = e.Value?.ToString();
 
-                        break;
-                    }
-            }
-            else if (value is string str)
-            {
-                Match m = Regex.Match(
-                        str,
-                        @"v?\s*([0-9]+(\.[0-9]+){1,3})",
-                        RegexOptions.IgnoreCase
-                );
-
-                if (m.Success)
-                    version = m.Groups[1].Value;
-            }
-            else if (value != null)
-            {
-                version = value.ToString();
+                    break;
+                }
             }
 
             if (!string.IsNullOrEmpty(version))
@@ -302,17 +362,8 @@ public class TagUtils : MonoBehaviour
 
     private bool HasCosmetx(VRRig rig)
     {
-        return rig.cosmeticSet.items.Any(item => !item.isNullItem && rig._playerOwnedCosmetics.Concat()?.Contains(item.itemName) != true);
-    }
-
-    private static string StringNormalization(string key)
-    {
-        if (string.IsNullOrEmpty(key)) return "";
-        key = key.Replace("\r", "");
-        key = key.Replace("\n", "\\n");
-        key = Regex.Replace(key, @"\\+n", "\\n");
-
-        return key.Trim().ToLowerInvariant();
+        return rig.cosmeticSet.items.Any(item => !item.isNullItem &&
+                                                 rig._playerOwnedCosmetics.Concat()?.Contains(item.itemName) != true);
     }
 
     public void RefreshCache()
@@ -374,50 +425,49 @@ public class TagUtils : MonoBehaviour
             string[] parts = line.Split(new[] { '$', }, 2, StringSplitOptions.None);
             if (parts.Length == 2)
             {
-                string key = StringNormalization(parts[0]);
+                string key = parts[0];
                 dictionary[key] = parts[1].Trim();
             }
         }
     }
-
-    // Hopefully better
+    
     private bool ModSpoofCheck(object value)
     {
-        if (value == null)
-            return false;
-
-        if (value is string str)
+        switch (value)
         {
-            if (str.StartsWith("System.", StringComparison.OrdinalIgnoreCase))
+            case null:
+            case string str when str.StartsWith("System.", StringComparison.OrdinalIgnoreCase):
                 return false;
 
-            if (Regex.IsMatch(str, @"v?\s*\d+(\.\d+){1,3}", RegexOptions.IgnoreCase))
+            case string str when Regex.IsMatch(str, @"v?\s*\d+(\.\d+){1,3}", RegexOptions.IgnoreCase):
                 return true;
 
-            return false;
+            case string str:
+                return false;
+
+            case Hashtable ht:
+            {
+                foreach (DictionaryEntry e in ht)
+                    if (e.Key is string k &&
+                        string.Equals(k, "version", StringComparison.OrdinalIgnoreCase))
+                        return true;
+
+                return false;
+            }
+
+            case IDictionary dict:
+            {
+                foreach (DictionaryEntry e in dict)
+                    if (e.Key is string k &&
+                        string.Equals(k, "version", StringComparison.OrdinalIgnoreCase))
+                        return true;
+
+                return false;
+            }
+
+            default:
+                return false;
         }
-
-        if (value is Hashtable ht)
-        {
-            foreach (DictionaryEntry e in ht)
-                if (e.Key is string k &&
-                    string.Equals(k, "version", StringComparison.OrdinalIgnoreCase))
-                    return true;
-
-            return false;
-        }
-
-        if (value is IDictionary dict)
-        {
-            foreach (DictionaryEntry e in dict)
-                if (e.Key is string k &&
-                    string.Equals(k, "version", StringComparison.OrdinalIgnoreCase))
-                    return true;
-
-            return false;
-        }
-
-        return false;
     }
 
     private IEnumerator ImageCoroutine(string url, Action<Texture2D> onComplete)

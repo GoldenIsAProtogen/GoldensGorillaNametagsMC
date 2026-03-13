@@ -46,7 +46,6 @@ public class Plugin : BaseUnityPlugin
     private const float CacheInt = 150f;
 
     public static readonly string MainGitUrl = "https://raw.githubusercontent.com/GoldenIsAProtogen/GoldensGorillaNametags/main/";
-
     public static readonly string ModsGitUrl = "https://raw.githubusercontent.com/GoldenIsAProtogen/GoldensGorillaNametagsMC/main/Mods.txt";
 
     [FormerlySerializedAs("cineCam")] public Camera CineCam;
@@ -186,7 +185,7 @@ public class Plugin : BaseUnityPlugin
         CheckCosmetics = Config.Bind("Checks", "Cosmetics", true,  "Check cosmetics");
         CheckPlatform  = Config.Bind("Checks", "Platform",  true,  "Check platform");
 
-        UsePlatIcons = Config.Bind("Platform", "UseIcons",     true,   "Show platform as icons instead of text");
+        UsePlatIcons = Config.Bind("Platform", "UseIcons",     false,   "Show platform as icons instead of text"); // Currently Doesn't work, plz no use
         IconSize     = Config.Bind("Platform", "Icon Size",    0.010f, "Size of the platform icons");
         IconLocation = Config.Bind("Platform", "Icon Location", "left", "Platform icon position\nAcceptable Values: left, right");
 
@@ -215,8 +214,7 @@ public class Plugin : BaseUnityPlugin
             if (fontPath != null)
             {
                 Font unityFont = new(fontPath);
-                Font = TextQuality.Value ? TMP_FontAsset.CreateFontAsset(unityFont, 120, 12, GlyphRenderMode.SDFAA, 4096, 4096)
-                                         : TMP_FontAsset.CreateFontAsset(unityFont);
+                Font = TextQuality.Value ? TMP_FontAsset.CreateFontAsset(unityFont, 120, 12, GlyphRenderMode.SDFAA, 4096, 4096) : TMP_FontAsset.CreateFontAsset(unityFont);
 
                 Font.material.shader = Shader.Find("TextMeshPro/Distance Field");
             }
