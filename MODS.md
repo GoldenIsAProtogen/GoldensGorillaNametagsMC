@@ -1,4 +1,4 @@
-https://github.com/NgbatzYT/MonkeCosmetics## Legal mods (white/blue/green) [83]<br>
+## Legal mods (white/blue/green) [83]<br>
 ODC         => Orion Drift Camera             [Private]<br>
 IC          => Input Camera                   [Private]<br>
 SUI         => SpankyUI                       [https://github.com/Spankypluh/SpankyUI]<br>
