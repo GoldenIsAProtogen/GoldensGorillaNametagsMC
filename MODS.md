@@ -82,7 +82,7 @@ GM          => GorillaMedia                   [https://github.com/iiDk-the-actua
 VC          => Vael Checker                   [No Link]<br>
 SBP         => Spoof by Pulse                 [https://github.com/HauntPulse/Mod-Spoofer]<br>
 
-## Zlothy mods (purple) [11]
+## Zlothy mods (purple) [11]<br>
 GIWRU       => GIWRoomUtils                   [https://github.com/ZlothY29IQ/RoomUtils-IW]<br>
 RRR         => RecRoomRig                     [Private?]<br>
 MClick      => MonkeClick                     [https://github.com/baggZ-idk/MonkeClick]<br>
@@ -95,7 +95,8 @@ DTAOI       => DamnThatsAlotOfInfo            [Private/Paid?]<br>
 NFZ         => FPS-Nametags for zlothy        [https://github.com/ZlothY29IQ/Zlothy-Nametag] [https://github.com/HanSolo1000Falcon/FPS-Nametags-For-Zlothy]<br>
 WALKSIM     => WalkSimulator                  [https://github.com/ZlothY29IQ/WalkSimulator]<br>
 
-## HanSolo mods (yellow) [10]
+## HanSolo mods (yellow) [10]<br>
+**QUIT MAKING MODS**
 CPS         => Custom Property Setter         [https://github.com/HanSolo1000Falcon/CustomPropertySetter]<br>
 WITM!       => Old WhoIsThatMonke             [https://github.com/HanSolo1000Falcon/WhoIsThatMonke]<br>
 WITM        => WhoIsThatMonke                 [https://github.com/HanSolo1000Falcon/WhoIsThatMonke]<br>
@@ -108,7 +109,7 @@ DTAGS       => PepsiDee Nametags              [Private]<br>
 BDILI       => BoyDoILoveInformation          [Private]<br>
 BDILI-P     => BoyDoILoveInformation-Public   [https://github.com/HanSolo1000Falcon/BoyDoILoveInformation-Public]<br>
 
-## Illegal mods (red) (All menus, unless told otherwise) [53]
+## Illegal mods (red) (All menus, unless told otherwise) [55]<br>
 METADATA MOD (quest mod metadata)<br>
 METADATA CUSTOM OS (quest mod metadata)<br>
 REC ROOM CHEAT (helps with rec rooming)<br>
@@ -163,6 +164,5 @@ WYNDIGO<br>
 SKIDDED MENU<br>
 Some Sort of Cheat Menu (im actually unsure of the menu name)<br>
 Euphoric<br>
-
-## Complete weirdo mod (purple-ish color) [1]
-NSFW mod (what is wrong with you) => Some degenerate mod
+Envision<br>
+Chqser<br>
