@@ -1,5 +1,5 @@
-> Note:
-> Needs to be Redone!
+> [!Note]
+> This needs to be re-done :)
 
 ## Legal mods (white/blue/green) [83]<br>
 ODC         => Orion Drift Camera             [Private]<br>
