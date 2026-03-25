@@ -98,7 +98,7 @@ DTAOI       => DamnThatsAlotOfInfo            [Private/Paid?]<br>
 NFZ         => FPS-Nametags for zlothy        [https://github.com/ZlothY29IQ/Zlothy-Nametag] [https://github.com/HanSolo1000Falcon/FPS-Nametags-For-Zlothy]<br>
 WALKSIM     => WalkSimulator                  [https://github.com/ZlothY29IQ/WalkSimulator]<br>
 
-## HanSolo mods (yellow) [10] **{\color{#ff0000}DISCONTINUED}**
+## HanSolo mods (yellow) [10] **$${\color{#ff0000}DISCONTINUED}$$** <span style="color:red;">Red Text</span>
 CPS         => Custom Property Setter         [https://github.com/HanSolo1000Falcon/CustomPropertySetter]<br>
 WITM!       => Old WhoIsThatMonke             [https://github.com/HanSolo1000Falcon/WhoIsThatMonke]<br>
 WITM        => WhoIsThatMonke                 [https://github.com/HanSolo1000Falcon/WhoIsThatMonke]<br>
