@@ -1,3 +1,6 @@
+> Note:
+> Needs to be Redone!
+
 ## Legal mods (white/blue/green) [83]<br>
 ODC         => Orion Drift Camera             [Private]<br>
 IC          => Input Camera                   [Private]<br>
